@@ -1,8 +1,9 @@
 {
     "name": "ifcastle/type-definitions",
-    "description": "TD",
+    "description": "Library for defining data types at the business logic layer. Data hydration and serialization based on type definitions.",
     "type": "library",
     "license": "MIT",
+    "keywords": ["data", "types", "definitions", "hydration", "serialization", "compilation", "validation"],
     "autoload": {
         "psr-4": {
             "IfCastle\\TypeDefinitions\\": "src/"
