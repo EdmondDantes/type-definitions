@@ -2,13 +2,13 @@
 
 namespace IfCastle\TypeDefinitions\Value;
 
+use IfCastle\Exceptions\UnexpectedValueType;
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\JsonSerializableInterface;
 use IfCastle\TypeDefinitions\DefinitionAbstract;
 use IfCastle\TypeDefinitions\DefinitionInterface;
 use IfCastle\TypeDefinitions\TypeObject;
-use Exceptions\UnexpectedValueType;
 
 class ValueObject                   extends ValueContainer
                                     implements ArraySerializableInterface, JsonSerializableInterface
