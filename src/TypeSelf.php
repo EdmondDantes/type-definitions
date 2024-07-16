@@ -1,0 +1,30 @@
+<?php
+declare(strict_types=1);
+
+namespace IfCastle\TypeDefinitions;
+
+class TypeSelf                      extends DefinitionAbstract
+{
+    public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
+    {
+        parent::__construct($name, 'self', $isRequired, $isNullable);
+    }
+    
+    #[\Override]
+    protected function validateValue(mixed $value): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    public function encode(mixed $data): mixed
+    {
+        // TODO: Implement arrayEncode() method.
+    }
+
+    #[\Override]
+    public function decode(float|array|bool|int|string $data): mixed
+    {
+        // TODO: Implement arrayDecode() method.
+    }
+}
