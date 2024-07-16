@@ -16,7 +16,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
             $value === null         => new TypeNull($name),
             is_bool($value)         => new TypeBool($name),
             is_string($value)       => new TypeString($name),
-            is_int($value)          => new TypeNumber($name),
+            is_int($value)          => new TypeInteger($name),
             is_float($value)        => new TypeFloat($name),
             is_array($value)        => new TypeJson($name),
             default                 => null,
@@ -62,25 +62,6 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
      */
     protected string $reference     = '';
     
-    protected int|float|null $minimum = null;
-    
-    protected int|float|null $maximum = null;
-    
-    protected int|null $maxLength   = null;
-    
-    protected int|null $minLength   = null;
-    
-    /**
-     * Pattern for value validation
-     */
-    protected string|null $pattern  = null;
-    
-    /**
-     * Additional variant of the regular expression according to the Ecma standard.
-     * @see https://262.ecma-international.org/5.1/#sec-15.10.1
-     */
-    protected string|null $ecmaPattern  = null;
-
     private bool $isImmutable       = false;
 
     public function __construct(protected string $name, protected string $type, protected bool $isRequired = true, protected bool $isNullable = false)
@@ -121,7 +102,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
 
     #[\Override]
-    public function getType(): string
+    public function getTypeName(): string
     {
         return $this->type;
     }
@@ -161,12 +142,6 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->isNullable           = $isNullable;
         
         return $this;
-    }
-
-    #[\Override]
-    public function canBySerializedFromString(): bool
-    {
-        return true;
     }
 
     #[\Override]

@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-class TypePercentage                extends TypeNumber
+class TypePercentage                extends TypeInteger
 {
     protected int|float|null $maximum = 100;
     

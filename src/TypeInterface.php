@@ -12,7 +12,7 @@ interface TypeInterface
     public function isNullable(): bool;
     
     /**
-     * Returns TRUE if a type is scalar: string, int, float, boolean, null
+     * Returns TRUE if a type is scalar: string, int, float, boolean
      */
     public function isScalar(): bool;
     

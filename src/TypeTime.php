@@ -6,7 +6,7 @@ class TypeTime                      extends DefinitionAbstract
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_TIME, $isRequired, $isNullable);
+        parent::__construct($name, 'time', $isRequired, $isNullable);
     }
     
     #[\Override]

@@ -13,7 +13,7 @@ class TypeOptions                   extends DefinitionAbstract
 {
     public function __construct(string $name, protected DefinitionMutableInterface $option, protected array $variants, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_OPTIONS, $isRequired, $isNullable);
+        parent::__construct($name, 'options', $isRequired, $isNullable);
         
         if($this->variants === []) {
             throw new DefinitionIsNotValid($this, 'Variants empty');

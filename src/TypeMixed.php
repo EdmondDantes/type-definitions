@@ -6,7 +6,7 @@ class TypeMixed                     extends DefinitionAbstract
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_MIXED, $isRequired, $isNullable);
+        parent::__construct($name, 'mixed', $isRequired, $isNullable);
     }
     
     #[\Override]

@@ -4,17 +4,32 @@ namespace IfCastle\TypeDefinitions;
 
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
-class TypeNumber                   extends DefinitionAbstract
+class TypeInteger                   extends DefinitionAbstract
+                                    implements NumberInterface
 {
+    protected int|null $minimum     = null;
+    
+    protected int|null $maximum     = null;
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_NUMBER, $isRequired, $isNullable);
+        parent::__construct($name, 'integer', $isRequired, $isNullable);
     }
     
     #[\Override]
     public function isScalar(): bool
     {
         return true;
+    }
+    
+    public function isUnsigned(): bool
+    {
+        return $this->minimum !== null && $this->minimum >= 0;
+    }
+    
+    public function isNonZero(): bool
+    {
+        return $this->minimum !== null && $this->minimum > 0;
     }
     
     #[\Override]

@@ -13,7 +13,7 @@ class TypeScalar         extends TypeOneOf
     
         $this->describeCase(new TypeBool('boolean'))
             ->describeCase(new TypeString('string'))
-            ->describeCase(new TypeNumber('number'))
+            ->describeCase(new TypeInteger('number'))
             ->describeCase(new TypeFloat('float'));
     }
 }

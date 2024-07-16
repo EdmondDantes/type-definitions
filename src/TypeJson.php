@@ -12,7 +12,7 @@ class TypeJson                      extends DefinitionAbstract
 
     public function __construct(string $name = '', bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_ARRAY, $isRequired, $isNullable);
+        parent::__construct($name, 'array', $isRequired, $isNullable);
         $this->setReference('#/components/schemas/json');
     }
 

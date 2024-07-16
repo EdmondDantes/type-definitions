@@ -5,6 +5,11 @@ namespace IfCastle\TypeDefinitions;
 
 class TypeBinary                    extends TypeString
 {
+    public function isBinary(): bool
+    {
+        return true;
+    }
+    
     #[\Override]
     protected function toOpenApiFormat(): string
     {

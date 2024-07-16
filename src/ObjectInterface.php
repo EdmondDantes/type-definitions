@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
-
-interface ObjectInterface extends DefinitionInterface, ArraySerializableInterface
+interface ObjectInterface extends DefinitionInterface
 {
     public function getProperties(): array;
+    
+    public function getInstantiableClass(): string;
 }

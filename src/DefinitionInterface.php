@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\EncodeDecodeInterface;
 
 /**
@@ -17,7 +18,7 @@ use IfCastle\TypeDefinitions\NativeSerialization\EncodeDecodeInterface;
  * * Used to describe API request/response specification.
  * * Knows how to encode and decode data type from server to client and vice versa.
  */
-interface DefinitionInterface               extends TypeInterface, EncodeDecodeInterface
+interface DefinitionInterface               extends TypeInterface, EncodeDecodeInterface, ArraySerializableInterface
 {
     /**
      * @return string

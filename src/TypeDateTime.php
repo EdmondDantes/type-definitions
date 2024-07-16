@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-class TypeDateTime                  extends DefinitionAbstract
+class TypeDateTime                  extends TypeString
 {
     protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) (2[0-3]|[01]\d):[0-5]\d:[0-5]\d$/';
     
@@ -10,7 +10,9 @@ class TypeDateTime                  extends DefinitionAbstract
     
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_DATETIME, $isRequired, $isNullable);
+        parent::__construct($name, $isRequired, $isNullable);
+        
+        $this->type                     = 'datetime';
     }
     
     #[\Override]

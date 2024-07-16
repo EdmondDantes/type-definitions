@@ -5,7 +5,7 @@ namespace IfCastle\TypeDefinitions;
 
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
-class TypeNumberOrString            extends TypeNumber
+class TypeIntegerOrString            extends TypeInteger
 {
     #[\Override]
     protected function validateValue(mixed $value) : bool

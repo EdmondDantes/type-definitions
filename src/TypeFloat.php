@@ -5,10 +5,25 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeFloat                     extends DefinitionAbstract
+                                    implements NumberInterface
 {
+    protected float|null $minimum   = null;
+    
+    protected float|null $maximum   = null;
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_FLOAT, $isRequired, $isNullable);
+        parent::__construct($name, 'float', $isRequired, $isNullable);
+    }
+    
+    public function isUnsigned(): bool
+    {
+        return $this->minimum !== null && $this->minimum >= 0;
+    }
+    
+    public function isNonZero(): bool
+    {
+        return $this->minimum !== null && $this->minimum > 0;
     }
     
     #[\Override]

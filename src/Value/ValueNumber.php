@@ -3,13 +3,13 @@
 namespace IfCastle\TypeDefinitions\Value;
 
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
-use IfCastle\TypeDefinitions\TypeNumber;
+use IfCastle\TypeDefinitions\TypeInteger;
 
 class ValueNumber                   extends ValueContainer
 {
     #[\Override]
     public static function definition(): DefinitionMutableInterface
     {
-        return new TypeNumber('number');
+        return new TypeInteger('number');
     }
 }

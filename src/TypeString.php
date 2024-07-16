@@ -5,16 +5,33 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeString                    extends DefinitionAbstract
+                                    implements StringableInterface
 {
+    protected int|null $minLength   = null;
+    protected int|null $maxLength   = null;
+    
+    protected string|null $pattern  = null;
+    
+    /**
+     * Additional variant of the regular expression according to the Ecma standard.
+     * @see https://262.ecma-international.org/5.1/#sec-15.10.1
+     */
+    protected string|null $ecmaPattern  = null;
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_STRING, $isRequired, $isNullable);
+        parent::__construct($name, 'string', $isRequired, $isNullable);
     }
     
     #[\Override]
     public function isScalar(): bool
     {
         return true;
+    }
+    
+    public function isBinary(): bool
+    {
+        return false;
     }
     
     #[\Override]

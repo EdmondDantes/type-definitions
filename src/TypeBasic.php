@@ -15,7 +15,7 @@ class TypeBasic         extends TypeOneOf
             ->describeCase(new TypeNull('null'))
             ->describeCase(new TypeBool('boolean'))
             ->describeCase(new TypeString('string'))
-            ->describeCase(new TypeNumber('number'))
+            ->describeCase(new TypeInteger('number'))
             ->describeCase(new TypeFloat('float'));
     }
 }
