@@ -1,0 +1,14 @@
+{
+    "name": "ifcastle/type-definitions",
+    "description": "TD",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "IfCastle\\TypeDefinitions\\": "src/"
+        }
+    },
+    "require": {
+        "ifcastle/exceptions": "^5.0"
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace IfCastle\TypeDefinitions\Exceptions;
 
+use IfCastle\Exceptions\ClientException;
 use IfCastle\TypeDefinitions\DefinitionInterface;
 
 class DefinitionIsNotValid          extends ClientException

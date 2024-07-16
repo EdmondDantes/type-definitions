@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Exceptions;
 
+use IfCastle\Exceptions\ClientException;
+
 class PreconditionFailed            extends ClientException
 {
     public function __construct(string $reason, array $debug = [])

@@ -2,8 +2,8 @@
 
 namespace IfCastle\TypeDefinitions\Exceptions;
 
+use IfCastle\Exceptions\LoggableException;
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
-use Exceptions\LoggableException;
 
 
 class DescribeException             extends LoggableException
