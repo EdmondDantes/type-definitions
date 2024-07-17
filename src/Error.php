@@ -3,11 +3,11 @@
 namespace IfCastle\TypeDefinitions;
 
 use Attribute;
+use IfCastle\Exceptions\ClientException;
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\ArrayTyped;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
-use IfCastle\TypeDefinitions\Exceptions\ClientException;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 readonly class Error                implements AttributeNameInterface, ArraySerializableInterface
