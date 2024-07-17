@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Reader;
 
+use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Function\FunctionDescriptorInterface;
 
 class ReflectionFunctionReader implements FunctionReaderInterface
@@ -29,7 +30,20 @@ class ReflectionFunctionReader implements FunctionReaderInterface
     
     protected function extractParameter(\ReflectionParameter $reflectionParameter): void
     {
-    
+        $parameterType              = $reflectionParameter->getType();
+        $parameterName              = $reflectionParameter->getName();
+        
+        if($parameterType === null) {
+            return;
+        }
+        
+        if($parameterType instanceof \ReflectionUnionType) {
+            $parameterTypes         = $parameterType->getTypes();
+        } else if($parameterType instanceof \ReflectionIntersectionType) {
+            $parameterTypes         = $parameterType->getTypes();
+        } else {
+            $parameterTypes         = [$parameterType];
+        }
+        
     }
-    
 }

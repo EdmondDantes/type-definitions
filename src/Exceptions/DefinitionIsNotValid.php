@@ -16,7 +16,7 @@ class DefinitionIsNotValid          extends ClientException
         
         parent::__construct(
             'Definition {definition} of {type} is not valid',
-            ['explanation' => $message, 'definition' => $definition->getName(), 'type' => $definition->getType()],
+            ['explanation' => $message, 'definition' => $definition->getName(), 'type' => $definition->getTypeName()],
             $debugData
         );
     }

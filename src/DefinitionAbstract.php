@@ -23,6 +23,19 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         };
     }
 
+    public static function getDefinitionByNativeTypeName(string $typeName, string $name): ?DefinitionMutableInterface
+    {
+        return match ($typeName) {
+            'null'                  => new TypeNull($name),
+            'bool'                  => new TypeBool($name),
+            'string'                => new TypeString($name),
+            'integer'               => new TypeInteger($name),
+            'float'                 => new TypeFloat($name),
+            'array'                 => new TypeJson($name),
+            default                 => null,
+        };
+    }
+    
     /**
      * @throws ParseException
      */
