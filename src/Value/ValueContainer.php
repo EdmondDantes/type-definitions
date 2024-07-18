@@ -3,6 +3,7 @@
 namespace IfCastle\TypeDefinitions\Value;
 
 use IfCastle\TypeDefinitions\DefinitionInterface;
+use IfCastle\TypeDefinitions\DefinitionMutableInterface;
 use IfCastle\TypeDefinitions\TypeMixed;
 
 /**
@@ -12,7 +13,7 @@ use IfCastle\TypeDefinitions\TypeMixed;
 class ValueContainer            implements ValueContainerInterface
 {
     #[\Override]
-    public static function definition(): DefinitionInterface
+    public static function definition(): DefinitionMutableInterface
     {
         return (new TypeMixed('mixed'))->setInstantiableClass(static::class);
     }

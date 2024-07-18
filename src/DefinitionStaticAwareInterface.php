@@ -5,5 +5,5 @@ namespace IfCastle\TypeDefinitions;
 
 interface DefinitionStaticAwareInterface
 {
-    public static function definition(): DefinitionInterface;
+    public static function definition(): DefinitionMutableInterface;
 }

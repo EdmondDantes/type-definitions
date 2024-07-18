@@ -13,5 +13,5 @@ use IfCastle\TypeDefinitions\DefinitionMutableInterface;
  */
 interface ResolverInterface
 {
-    public function resolveType(string $typeName, TypeContextInterface $typeContext): DefinitionMutableInterface;
+    public function resolveType(string $typeName, TypeContextInterface $typeContext): DefinitionMutableInterface|null;
 }

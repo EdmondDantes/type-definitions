@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace IfCastle\TypeDefinitions\Command;
 
 use IfCastle\TypeDefinitions\DefinitionInterface;
+use IfCastle\TypeDefinitions\DefinitionMutableInterface;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\TypeJson;
 use IfCastle\TypeDefinitions\TypeObject;
@@ -17,7 +18,7 @@ class CommandDescriptor             extends ValueObject
      * @throws DescribeException
      */
     #[\Override]
-    public static function definition(): DefinitionInterface
+    public static function definition(): DefinitionMutableInterface
     {
         return (new TypeObject('command'))
             ->describe(new TypeString(self::SERVICE))
