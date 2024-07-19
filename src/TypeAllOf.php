@@ -1,11 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 
-class TypeOneOf                     extends DefinitionAbstract
+class TypeAllOf                     extends DefinitionAbstract
 {
     /**
      * @var DefinitionInterface[]
@@ -14,7 +15,7 @@ class TypeOneOf                     extends DefinitionAbstract
     
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'oneOf', $isRequired, $isNullable);
+        parent::__construct($name, 'allOf', $isRequired, $isNullable);
     }
     
     #[\Override]
@@ -48,9 +49,7 @@ class TypeOneOf                     extends DefinitionAbstract
         }
         
         foreach ($this->cases as $type) {
-            if($type->validate($value, false) === null) {
-                return true;
-            }
+            $type->validate($value);
         }
         
         return false;
@@ -68,13 +67,13 @@ class TypeOneOf                     extends DefinitionAbstract
         
         return $this->cases;
     }
-
+    
     #[\Override]
     public function encode(mixed $data): mixed
     {
         // TODO: Implement arrayEncode() method.
     }
-
+    
     /**
      * @throws DefinitionIsNotValid
      */
@@ -97,7 +96,7 @@ class TypeOneOf                     extends DefinitionAbstract
                 continue;
             }
         }
-    
+        
         throw new DefinitionIsNotValid($this, 'Enum types are not matched');
     }
     
@@ -110,6 +109,6 @@ class TypeOneOf                     extends DefinitionAbstract
             $array[]                = $enumCase->toOpenApiSchema($definitionHandler);
         }
         
-        return ['oneOf' => $array];
+        return ['allOf' => $array];
     }
 }

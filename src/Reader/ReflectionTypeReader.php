@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Reader;
 
+use IfCastle\Exceptions\RecursionLimitExceeded;
 use IfCastle\TypeDefinitions\DefinitionAbstract;
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeResolveNotAllowed;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
+use IfCastle\TypeDefinitions\TypeAllOf;
+use IfCastle\TypeDefinitions\TypeOneOf;
 
 class ReflectionTypeReader
 {
@@ -17,7 +20,7 @@ class ReflectionTypeReader
         protected readonly ResolverInterface $resolver
     ) {}
     
-    public function generate(): void
+    public function generate(): DefinitionMutableInterface
     {
         if($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
             $type                   = $this->definition->getType();
@@ -28,13 +31,22 @@ class ReflectionTypeReader
         if($type === null) {
             throw new Exceptions\TypeUndefined($this->definition->getName());
         }
+
+        return $this->handleType($type);
+    }
+    
+    protected function handleType(\ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface
+    {
+        if($recursion > 32) {
+            throw new RecursionLimitExceeded(32);
+        }
         
         if($type instanceof \ReflectionUnionType) {
-            $types                  = $type->getTypes();
+            return $this->handleUnionType($type, $recursion + 1);
         } else if($type instanceof \ReflectionIntersectionType) {
-            $types                  = $type->getTypes();
+            return $this->handleIntersectionType($type, $recursion + 1);
         } else {
-            $types                  = [$type];
+            return $this->handleNamedType($type);
         }
     }
     
@@ -43,11 +55,7 @@ class ReflectionTypeReader
      */
     protected function handleNamedType(\ReflectionNamedType $type): DefinitionMutableInterface|null
     {
-        if($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
-            $name               = $this->definition->getName();
-        } else {
-            $name               = 'returnType';
-        }
+        $name                   = $this->getName();
         
         if($type->isBuiltin()) {
             return DefinitionAbstract::getDefinitionByNativeTypeName($type->getName(), $name);
@@ -77,5 +85,36 @@ class ReflectionTypeReader
         }
         
         return $definition;
+    }
+    
+    protected function handleUnionType(\ReflectionUnionType $type, int $recursion = 0): DefinitionMutableInterface
+    {
+        $definition             = new TypeOneOf($this->getName());
+        
+        foreach ($type->getTypes() as $type) {
+            $definition->describeCase($this->handleType($type, $recursion));
+        }
+        
+        return $definition;
+    }
+    
+    protected function handleIntersectionType(\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface
+    {
+        $definition             = new TypeAllOf($this->getName());
+        
+        foreach ($type->getTypes() as $type) {
+            $definition->describeCase($this->handleType($type, $recursion));
+        }
+        
+        return $definition;
+    }
+    
+    protected function getName(): string
+    {
+        if($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
+            return $this->definition->getName();
+        } else {
+            return 'returnType';
+        }
     }
 }
