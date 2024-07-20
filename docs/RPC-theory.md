@@ -72,3 +72,24 @@ we will assume that the `RPC` protocols used should support the main features of
 * A result that can be encoded and decoded
 * An error channel that can be encoded and decoded
 
+## Meta-information for data decoding
+
+There are two fundamental approaches to encoding and decoding data in RPC calls:
+
+* Marshaling without transmitting meta-information for data decoding
+* Marshaling with transmitting meta-information for data decoding
+
+Meta-information for data decoding consists of instructions/rules for converting a request into a 
+set of parameters for the remote function call.
+
+Protocols like `GRPC` are based on the first method. 
+In this case, the meta-information for encoding and decoding call data is contained 
+in the application code and is known in advance. 
+This method of encoding and decoding is the most common.
+
+For the `JSONRPC` protocol, meta-information is not explicitly present and must be located in the application code.
+
+However, there are situations where it is necessary to transmit meta-information 
+about decoding directly within the request. This may be required for calls between workers. 
+Essentially, the PHP function `serialize` does exactly this; 
+it embeds meta-information about the class directly within the data.
