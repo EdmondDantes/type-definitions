@@ -16,7 +16,9 @@ final class DataEncoder
      */
     public static function dataEncode(mixed $value): mixed
     {
-        if($value instanceof ContainerSerializableInterface) {
+       if ($value instanceof SelfEncodeDecodeInterface) {
+           return $value->selfEncode();
+       } else if($value instanceof ContainerSerializableInterface) {
             return $value->containerSerialize();
         } elseif ($value instanceof DefinitionAwareInterface) {
             return $value->getDefinition()->encode($value);
