@@ -8,12 +8,12 @@ class TypeUlid                      extends TypeString
     {
         parent::__construct($name, $isRequired, $isNullable);
         
-        $this->type                 = self::TYPE_ULID;
+        $this->type                 = 'ulid';
     }
     
     #[\Override]
     protected function validateValue(mixed $value): bool
     {
-        return parent::validateValue($value) && preg_match(Resource::PREG_UUID, (string) $value);
+        return parent::validateValue($value) && preg_match('/^[0-9A-HJ-KM-NP-TV-Z]{26}$/', (string) $value);
     }
 }

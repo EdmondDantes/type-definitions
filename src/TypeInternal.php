@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use Exceptions\UnexpectedMethodMode;
+use IfCastle\Exceptions\UnexpectedMethodMode;
 
 final class TypeInternal            extends DefinitionAbstract
 {
@@ -15,12 +15,6 @@ final class TypeInternal            extends DefinitionAbstract
     
     #[\Override]
     public function isScalar(): bool
-    {
-        return false;
-    }
-
-    #[\Override]
-    public function canBySerializedFromString(): bool
     {
         return false;
     }

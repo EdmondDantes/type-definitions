@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
@@ -10,7 +12,7 @@ class TypeUuid                      extends DefinitionAbstract
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, self::TYPE_UUID, $isRequired, $isNullable);
+        parent::__construct($name, 'uuid', $isRequired, $isNullable);
     }
     
     #[\Override]
