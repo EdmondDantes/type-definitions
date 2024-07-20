@@ -378,25 +378,30 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         if($this->isNullable) {
             $array['nullable']      = true;
         }
-    
-        if($this->minimum !== null) {
-            $array['minimum']       = $this->minimum;
+
+        if($this instanceof NumberInterface) {
+            if($this->getMinimum() !== null) {
+                $array['minimum']   = $this->getMinimum();
+            }
+            
+            if($this->getMaximum() !== null) {
+                $array['maximum']   = $this->getMaximum();
+            }
         }
-    
-        if($this->maximum !== null) {
-            $array['maximum']       = $this->maximum;
-        }
-    
-        if($this->minLength !== null) {
-            $array['minLength']     = $this->minLength;
-        }
-    
-        if($this->maxLength !== null) {
-            $array['maxLength']     = $this->maxLength;
-        }
-    
-        if($this->ecmaPattern !== null) {
-            $array['pattern']       = $this->ecmaPattern;
+
+        if($this instanceof StringableInterface) {
+            
+            if($this->getMinLength() !== null) {
+                $array['minLength'] = $this->getMinLength();
+            }
+            
+            if($this->getMaxLength() !== null) {
+                $array['maxLength'] = $this->getMaxLength();
+            }
+            
+            if($this->getEcmaPattern() !== null) {
+                $array['pattern']   = $this->getEcmaPattern();
+            }
         }
         
         return $array;
@@ -405,15 +410,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     protected function toOpenApiType(): string
     {
         return match ($this->type) {
-            self::TYPE_NULL         => 'null',
-            self::TYPE_BOOL         => 'boolean',
-            self::TYPE_TIMESTAMP,
-            self::TYPE_NUMBER       => 'integer',
-            self::TYPE_FLOAT        => 'number',
-            self::TYPE_OBJECT, self::TYPE_KEY_LIST
-                                    => 'object',
-            self::TYPE_ARRAY, self::TYPE_LIST
-                                    => 'array',
+            'null'                  => 'null',
+            'bool'                  => 'boolean',
+            'timestamp',
+            'number'                => 'integer',
+            'float'                 => 'number',
+            'object', 'key_list'    => 'object',
+            'array', 'list'         => 'array',
             default                 => 'string'
         };
     }
@@ -421,13 +424,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     protected function toOpenApiFormat(): string
     {
         return match ($this->type) {
-            self::TYPE_NUMBER       => 'int32',
-            self::TYPE_TIMESTAMP    => 'timestamp',
-            self::TYPE_FLOAT        => 'float',
+            'number'                => 'int32',
+            'timestamp'             => 'timestamp',
+            'float'                 => 'float',
             
-            self::TYPE_DATE         => 'date',
-            self::TYPE_TIME         => 'time',
-            self::TYPE_UUID         => 'guid',
+            'date'                  => 'date',
+            'time'                  => 'time',
+            'uuid'                  => 'guid',
             
             default                 => ''
         };
