@@ -26,3 +26,49 @@ Therefore, it is wise NOT to use all of PHP's capabilities when constructing rem
 However, it would be unwise to completely block the possibility of remote calls between PHP components. 
 Therefore, we adhere to the philosophy of avoiding PHP features that are difficult to serialize in other languages.
 
+## General Flow for Remote Call
+
+Let’s say we have a function `myFunction(...myArguments): ReturnType`. 
+The process needed for data marshaling looks like this:
+
+* Create a `function descriptor` that describes the function in such a way 
+that the remote server can identify the metadata associated with the function.
+* Define type descriptors for all `function arguments`.
+* Define a type descriptor for the `return value`.
+* Define type descriptors for `exceptions` (if the protocol supports an error channel).
+
+Let's describe the general process of a remote procedure call:
+
+```puml
+@startuml
+actor Client
+participant "RPC Client Driver" as ClientDriver
+participant "RPC Server Driver" as ServerDriver
+participant Server
+
+Client -> Client: Define function descriptor and argument values
+Client -> ClientDriver: Send function descriptor and arguments
+ClientDriver -> ClientDriver: Encode function descriptor and arguments
+ClientDriver -> ServerDriver: Send request
+ServerDriver -> Server: Decode function descriptor and arguments
+Server -> Server: Verify function call and determine real function
+Server -> Server: Execute function call
+Server -> Server: Get result or exception
+Server -> ServerDriver: Encode result or exception
+ServerDriver -> ClientDriver: Send response
+ClientDriver -> Client: Decode result or exception
+
+@enduml
+```
+
+There are many implementations of `RPC` protocols, as well as implementations
+of protocols that can be represented as `RPC`, such as `REST`.
+
+Since our task is to abstract from the specific method of remote procedure calls, 
+we will assume that the `RPC` protocols used should support the main features of remote calls, such as:
+
+* A function descriptor as a pointer to the function to be called
+* Arguments that can be encoded and decoded according to type information
+* A result that can be encoded and decoded
+* An error channel that can be encoded and decoded
+

@@ -25,6 +25,11 @@ use IfCastle\TypeDefinitions\NativeSerialization\DataEncoder;
  */
 class TypeContainer                 extends DefinitionAbstract
 {
+    public function isScalar(): bool
+    {
+        return false;
+    }
+    
     protected function validateValue($value): bool
     {
         return $value instanceof self;
