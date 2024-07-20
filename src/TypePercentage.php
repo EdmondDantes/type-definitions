@@ -4,9 +4,9 @@ namespace IfCastle\TypeDefinitions;
 
 class TypePercentage                extends TypeInteger
 {
-    protected int|float|null $maximum = 100;
+    protected int|null $maximum     = 100;
     
-    protected int|float|null $minimum = 0;
+    protected int|null $minimum     = 0;
     
     #[\Override]
     protected function validateValue(mixed $value): bool

@@ -5,7 +5,7 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeString                    extends DefinitionAbstract
-                                    implements StringableInterface
+                                    implements StringableMutableInterface
 {
     protected int|null $minLength   = null;
     protected int|null $maxLength   = null;
@@ -55,7 +55,55 @@ class TypeString                    extends DefinitionAbstract
         
         return true;
     }
-
+    
+    public function getMaxLength(): int|null
+    {
+        return $this->maxLength;
+    }
+    
+    public function getMinLength(): int|null
+    {
+        return $this->minLength;
+    }
+    
+    public function getPattern(): string|null
+    {
+        return $this->pattern;
+    }
+    
+    public function getEcmaPattern(): string|null
+    {
+        return $this->ecmaPattern;
+    }
+    
+    public function setMaxLength(int $maxLength): static
+    {
+        $this->maxLength = $maxLength;
+        
+        return $this;
+    }
+    
+    public function setMinLength(int $minLength): static
+    {
+        $this->minLength = $minLength;
+        
+        return $this;
+    }
+    
+    public function setPattern(string $pattern): static
+    {
+        $this->pattern = $pattern;
+        
+        return $this;
+    }
+    
+    public function setEcmaPattern(string $ecmaPattern): static
+    {
+        $this->ecmaPattern = $ecmaPattern;
+        
+        return $this;
+    }
+    
     /**
      * @throws DefinitionIsNotValid
      */

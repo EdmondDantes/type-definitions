@@ -20,16 +20,6 @@ interface DefinitionMutableInterface        extends DefinitionInterface
     
     public function asReference(): static;
     
-    public function setMinimum(int|float $minimum): static;
-    
-    public function setMaximum(int|float $maximum): static;
-    
-    public function setMaxLength(int $maxLength): static;
-    
-    public function setMinLength(int $minLength): static;
-    
-    public function setPattern(string $pattern): static;
-    
     public function setIsEmptyToNull(bool $isEmptyToNull): static;
 
     /**

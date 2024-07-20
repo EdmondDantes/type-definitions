@@ -5,7 +5,7 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeFloat                     extends DefinitionAbstract
-                                    implements NumberInterface
+                                    implements NumberMutableInterface
 {
     protected float|null $minimum   = null;
     
@@ -30,6 +30,28 @@ class TypeFloat                     extends DefinitionAbstract
     public function isScalar(): bool
     {
         return true;
+    }
+    
+    public function getMinimum(): int|float|null
+    {
+        return $this->minimum;
+    }
+    
+    public function getMaximum(): int|float|null
+    {
+        return $this->maximum;
+    }
+    
+    public function setMinimum(int|float $minimum): static
+    {
+        $this->minimum              = (float)$minimum;
+        return $this;
+    }
+    
+    public function setMaximum(int|float $maximum): static
+    {
+        $this->maximum              = (float)$maximum;
+        return $this;
     }
     
     #[\Override]

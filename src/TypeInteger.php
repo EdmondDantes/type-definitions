@@ -5,7 +5,7 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeInteger                   extends DefinitionAbstract
-                                    implements NumberInterface
+                                    implements NumberMutableInterface
 {
     protected int|null $minimum     = null;
     
@@ -30,6 +30,28 @@ class TypeInteger                   extends DefinitionAbstract
     public function isNonZero(): bool
     {
         return $this->minimum !== null && $this->minimum > 0;
+    }
+    
+    public function getMinimum(): int|float|null
+    {
+        return $this->minimum;
+    }
+    
+    public function getMaximum(): int|float|null
+    {
+        return $this->maximum;
+    }
+    
+    public function setMinimum(int|float $minimum): static
+    {
+        $this->minimum              = (int)$minimum;
+        return $this;
+    }
+    
+    public function setMaximum(int|float $maximum): static
+    {
+        $this->maximum              = (int)$maximum;
+        return $this;
     }
     
     #[\Override]
