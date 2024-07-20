@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Reader;
 
-use IfCastle\TypeDefinitions\Function\FunctionDescriptorInterface;
+use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
 interface FunctionReaderInterface
 {

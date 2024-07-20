@@ -6,7 +6,9 @@ namespace IfCastle\TypeDefinitions\Reader;
 use IfCastle\Exceptions\RecursionLimitExceeded;
 use IfCastle\TypeDefinitions\DefinitionAbstract;
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
+use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeResolveNotAllowed;
+use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUndefined;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
 use IfCastle\TypeDefinitions\TypeAllOf;
@@ -20,6 +22,12 @@ class ReflectionTypeReader
         protected readonly ResolverInterface $resolver
     ) {}
     
+    /**
+     * @throws TypeResolveNotAllowed
+     * @throws TypeUndefined
+     * @throws RecursionLimitExceeded
+     * @throws DescribeException
+     */
     public function generate(): DefinitionMutableInterface
     {
         if($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
@@ -35,6 +43,11 @@ class ReflectionTypeReader
         return $this->handleType($type);
     }
     
+    /**
+     * @throws RecursionLimitExceeded
+     * @throws DescribeException
+     * @throws TypeResolveNotAllowed
+     */
     protected function handleType(\ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface
     {
         if($recursion > 32) {
@@ -87,6 +100,10 @@ class ReflectionTypeReader
         return $definition;
     }
     
+    /**
+     * @throws RecursionLimitExceeded
+     * @throws DescribeException
+     */
     protected function handleUnionType(\ReflectionUnionType $type, int $recursion = 0): DefinitionMutableInterface
     {
         $definition             = new TypeOneOf($this->getName());
