@@ -38,15 +38,15 @@ class TypeOptions                   extends DefinitionAbstract
     }
     
     #[\Override]
-    public function encode(mixed $value): mixed
+    public function encode(mixed $data): mixed
     {
-        return $value;
+        return $data;
     }
     
     #[\Override]
-    public function decode(mixed $value): mixed
+    public function decode(mixed $data): mixed
     {
-        return $this->option->decode($value);
+        return $this->option->decode($data);
     }
     
     #[\Override]
