@@ -8,6 +8,7 @@ use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueObject;
 
 class TypeObject                    extends DefinitionAbstract
+                                    implements ObjectInterface
 {
     protected array $properties     = [];
     
