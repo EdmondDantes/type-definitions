@@ -103,6 +103,7 @@ class ReflectionTypeReader
     /**
      * @throws RecursionLimitExceeded
      * @throws DescribeException
+     * @throws TypeResolveNotAllowed
      */
     protected function handleUnionType(\ReflectionUnionType $type, int $recursion = 0): DefinitionMutableInterface
     {
