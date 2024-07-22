@@ -5,6 +5,8 @@ namespace IfCastle\TypeDefinitions\Reader;
 
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
+use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUndefined;
+use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContext;
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
@@ -31,7 +33,13 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
             
             $typeReader             = $this->buildTypeReader($parameter, $typeContext);
             
-            $functionDescriptor->describe($typeReader->generate());
+            $definition             = $typeReader->generate();
+            
+            if($definition === null) {
+                throw new TypeUnresolved($parameter->getName(), $typeContext);
+            }
+            
+            $functionDescriptor->describe($definition);
         }
         
         $typeContext                = new TypeContext(
@@ -70,7 +78,13 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
             
             $typeReader             = $this->buildTypeReader($parameter, $typeContext);
             
-            $methodDescriptor->describe($typeReader->generate());
+            $definition             = $typeReader->generate();
+            
+            if($definition === null) {
+                throw new TypeUnresolved($parameter->getName(), $typeContext);
+            }
+            
+            $methodDescriptor->describe($definition);
         }
         
         $typeContext                = new TypeContext(

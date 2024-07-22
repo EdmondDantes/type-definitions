@@ -29,7 +29,7 @@ class ReflectionTypeReader
      * @throws RecursionLimitExceeded
      * @throws DescribeException
      */
-    public function generate(): DefinitionMutableInterface
+    public function generate(): DefinitionMutableInterface|null
     {
         if($this->definition === null) {
             
@@ -58,7 +58,7 @@ class ReflectionTypeReader
      * @throws DescribeException
      * @throws TypeResolveNotAllowed
      */
-    protected function handleType(\ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface
+    protected function handleType(\ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface|null
     {
         if($recursion > 32) {
             throw new RecursionLimitExceeded(32);
@@ -87,7 +87,7 @@ class ReflectionTypeReader
         $definition             = $this->resolver->resolveType($type->getName(), $this->typeContext);
         
         if($definition === null) {
-            throw new TypeResolveNotAllowed($type->getName(), $this->typeContext);
+            return null;
         }
         
         // Make type mutable
@@ -115,23 +115,41 @@ class ReflectionTypeReader
      * @throws DescribeException
      * @throws TypeResolveNotAllowed
      */
-    protected function handleUnionType(\ReflectionUnionType $type, int $recursion = 0): DefinitionMutableInterface
+    protected function handleUnionType(\ReflectionUnionType $type, int $recursion = 0): DefinitionMutableInterface|null
     {
         $definition             = new TypeOneOf($this->getName());
         
         foreach ($type->getTypes() as $type) {
-            $definition->describeCase($this->handleType($type, $recursion));
+            
+            $resolved           = $this->handleType($type, $recursion);
+            
+            if($resolved !== null) {
+                $definition->describeCase($resolved);
+            }
+        }
+        
+        if($definition->getCases() === []) {
+            return null;
         }
         
         return $definition;
     }
     
-    protected function handleIntersectionType(\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface
+    protected function handleIntersectionType(\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface|null
     {
         $definition             = new TypeAllOf($this->getName());
         
         foreach ($type->getTypes() as $type) {
-            $definition->describeCase($this->handleType($type, $recursion));
+            
+            $resolved           = $this->handleType($type, $recursion);
+            
+            if($resolved !== null) {
+                $definition->describeCase($resolved);
+            }
+        }
+        
+        if($definition->getCases() === []) {
+            return null;
         }
         
         return $definition;

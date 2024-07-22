@@ -5,10 +5,12 @@ namespace IfCastle\TypeDefinitions\Reader;
 
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
+use IfCastle\TypeDefinitions\Reader\Exceptions\ReaderException;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContext;
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
 use IfCastle\TypeDefinitions\TypeObject;
+use IfCastle\TypeDefinitions\Value\InstantiateInterface;
 
 class ReflectionTransferObjectReader
 {
@@ -20,7 +22,7 @@ class ReflectionTransferObjectReader
         
         $objectDescriptor           = new TypeObject($classReflection->getName());
         
-        foreach ($classReflection->getProperties() as $property) {
+        foreach ($this->extractProperties($classReflection) as $property) {
             $typeContext            = new TypeContext(
                 className:          $classReflection->getName(),
                 propertyName:       $property->getName(),
@@ -30,10 +32,46 @@ class ReflectionTransferObjectReader
             
             $typeReader             = $this->buildTypeReader($property, $typeContext);
             
-            $objectDescriptor->describe($typeReader->generate());
+            $definition             = $typeReader->generate();
+            
+            if($definition !== null) {
+                $objectDescriptor->describe($definition);
+            }
         }
         
         return $objectDescriptor->asImmutable();
+    }
+    
+    protected function extractProperties(\ReflectionClass $reflectionClass): array
+    {
+        if(is_subclass_of($this->object, InstantiateInterface::class)) {
+            return $reflectionClass->getProperties();
+        }
+        
+        // Using only the properties that are defined in the class constructor
+        $properties                 = [];
+        $constructor                = $reflectionClass->getConstructor();
+        
+        if($constructor === null) {
+            throw new ReaderException([
+                'template'          => 'No constructor found for class {class}. But required for transfer object',
+                'class'             => $reflectionClass->getName()
+            ]);
+        }
+        
+        $arguments                  = [];
+        
+        foreach ($constructor->getParameters() as $parameter) {
+            $arguments[$parameter->getName()] = $parameter;
+        }
+        
+        foreach ($reflectionClass->getProperties() as $property) {
+            if(array_key_exists($property->getName(), $arguments)) {
+                $properties[]       = $property;
+            }
+        }
+        
+        return $properties;
     }
     
     protected function buildTypeReader(\ReflectionProperty|null $reflectionType, TypeContextInterface $typeContext): ReflectionTypeReader
