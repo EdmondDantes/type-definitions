@@ -9,5 +9,5 @@ interface FunctionReaderInterface
 {
     public function extractFunctionDescriptor(string|\Closure $function): FunctionDescriptorInterface;
     
-    public function extractMethodDescriptor(string $class, string $method): FunctionDescriptorInterface;
+    public function extractMethodDescriptor(string|object $object, string $method): FunctionDescriptorInterface;
 }

@@ -10,7 +10,6 @@ class TypeFunction                  extends TypeObject
     protected string $functionName  = '';
     protected bool $isStatic        = false;
     protected string $scope         = '';
-    protected array $arguments      = [];
     protected DefinitionInterface $returnType;
     
     public function __construct(
@@ -46,12 +45,19 @@ class TypeFunction                  extends TypeObject
     
     public function getArguments(): array
     {
-        return $this->arguments;
+        return $this->properties;
     }
     
     public function getReturnType(): DefinitionInterface
     {
         return $this->returnType;
+    }
+    
+    public function describeReturnType(DefinitionInterface $returnType): static
+    {
+        $this->returnType           = $returnType;
+        
+        return $this;
     }
     
     public function getScope(): string

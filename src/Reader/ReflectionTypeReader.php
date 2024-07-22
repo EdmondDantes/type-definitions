@@ -13,11 +13,12 @@ use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
 use IfCastle\TypeDefinitions\TypeAllOf;
 use IfCastle\TypeDefinitions\TypeOneOf;
+use IfCastle\TypeDefinitions\TypeVoid;
 
 class ReflectionTypeReader
 {
     public function __construct(
-        protected readonly \ReflectionParameter|\ReflectionProperty|\ReflectionType $definition,
+        protected readonly \ReflectionParameter|\ReflectionProperty|\ReflectionType|null $definition,
         protected readonly TypeContextInterface $typeContext,
         protected readonly ResolverInterface $resolver
     ) {}
@@ -30,6 +31,15 @@ class ReflectionTypeReader
      */
     public function generate(): DefinitionMutableInterface
     {
+        if($this->definition === null) {
+            
+            if($this->typeContext->isReturnType()) {
+                return new TypeVoid('returnType');
+            }
+            
+            throw new TypeUndefined('', $this->typeContext);
+        }
+        
         if($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
             $type                   = $this->definition->getType();
         } else {
@@ -37,7 +47,7 @@ class ReflectionTypeReader
         }
         
         if($type === null) {
-            throw new Exceptions\TypeUndefined($this->definition->getName());
+            throw new TypeUndefined($this->definition->getName(), $this->typeContext);
         }
 
         return $this->handleType($type);
