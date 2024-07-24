@@ -90,8 +90,10 @@ class ReflectionTypeReader
             return null;
         }
         
-        // Make type mutable
+        // Make a type mutable
         $definition             = clone $definition;
+        
+        $definition->addAttributes(...$this->typeContext->getAttributes());
         
         $definition->setIsNullable($type->allowsNull());
         
@@ -101,10 +103,18 @@ class ReflectionTypeReader
         
         if($this->definition instanceof \ReflectionParameter) {
             $definition->setIsRequired(false === $this->definition->isDefaultValueAvailable());
+            
+            if($this->definition->isDefaultValueAvailable()) {
+                $definition->setDefaultValue($this->definition->getDefaultValue());
+            }
         }
         
         if($this->definition instanceof \ReflectionProperty) {
             $definition->setIsRequired(false === $this->definition->isDefault());
+            
+            if($this->definition->hasDefaultValue()) {
+                $definition->setDefaultValue($this->definition->getDefaultValue());
+            }
         }
         
         return $definition;

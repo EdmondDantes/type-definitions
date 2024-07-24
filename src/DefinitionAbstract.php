@@ -7,6 +7,7 @@ use IfCastle\TypeDefinitions\Exceptions\DecodeException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Exceptions\ParseException;
+use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 abstract class DefinitionAbstract   implements DefinitionMutableInterface
 {
@@ -74,6 +75,17 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
      * Used for OpenAPI reference
      */
     protected string $reference     = '';
+    
+    /**
+     * @var AttributeNameInterface[]
+     */
+    protected array $attributes     = [];
+    
+    protected bool $isDefaultValueAvailable = false;
+    
+    protected mixed $defaultValue   = null;
+    
+    protected mixed $resolver       = null;
     
     private bool $isImmutable       = false;
 
@@ -163,6 +175,18 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         return $this->description;
     }
     
+    #[\Override]
+    public function isDefaultValueAvailable(): bool
+    {
+        return $this->isDefaultValueAvailable;
+    }
+    
+    #[\Override]
+    public function getDefaultValue(): mixed
+    {
+        return $this->defaultValue;
+    }
+    
     /**
      *
      * @return $this
@@ -203,6 +227,42 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         return $this->reference;
     }
     
+    #[\Override]
+    public function getAttributes(string $instanceOf = null): array
+    {
+        if($instanceOf === null) {
+            return $this->attributes;
+        }
+        
+        $attributes                 = [];
+        
+        foreach ($this->attributes as $attribute) {
+            if(is_subclass_of($attribute, $instanceOf)) {
+                $attributes[]       = $attribute;
+            }
+        }
+        
+        return $attributes;
+    }
+    
+    #[\Override]
+    public function findAttribute(string $instanceOf): object|null
+    {
+        foreach ($this->attributes as $attribute) {
+            if(is_subclass_of($attribute, $instanceOf)) {
+                return $attribute;
+            }
+        }
+        
+        return null;
+    }
+    
+    #[\Override]
+    public function getResolver(): callable|null
+    {
+        return $this->resolver;
+    }
+    
     /**
      * @throws DescribeException
      */
@@ -239,6 +299,48 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         $this->throwIfImmutable();
         $this->isEmptyToNull        = $isEmptyToNull;
+        return $this;
+    }
+    
+    #[\Override]
+    public function setDefaultValue(mixed $defaultValue): static
+    {
+        $this->throwIfImmutable();
+        $this->isDefaultValueAvailable = true;
+        $this->defaultValue           = $defaultValue;
+        return $this;
+    }
+    
+    #[\Override]
+    public function resetDefaultValue(): static
+    {
+        $this->throwIfImmutable();
+        $this->isDefaultValueAvailable = false;
+        $this->defaultValue           = null;
+        return $this;
+    }
+    
+    #[\Override]
+    public function setAttributes(array $attributes): static
+    {
+        $this->throwIfImmutable();
+        $this->attributes           = $attributes;
+        return $this;
+    }
+    
+    #[\Override]
+    public function addAttributes(object ...$attributes): static
+    {
+        $this->throwIfImmutable();
+        $this->attributes           = array_merge($this->attributes, $attributes);
+        return $this;
+    }
+    
+    #[\Override]
+    public function setResolver(callable $resolver): static
+    {
+        $this->throwIfImmutable();
+        $this->resolver             = $resolver;
         return $this;
     }
     

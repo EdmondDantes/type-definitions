@@ -21,6 +21,16 @@ interface DefinitionMutableInterface        extends DefinitionInterface
     public function asReference(): static;
     
     public function setIsEmptyToNull(bool $isEmptyToNull): static;
+    
+    public function setDefaultValue(mixed $defaultValue): static;
+    
+    public function resetDefaultValue(): static;
+    
+    public function setAttributes(array $attributes): static;
+    
+    public function addAttributes(object ...$attributes): static;
+    
+    public function setResolver(callable $resolver): static;
 
     /**
      * Mark object only for read
