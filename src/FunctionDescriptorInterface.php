@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-interface FunctionDescriptorInterface
+interface FunctionDescriptorInterface extends DefinitionInterface
 {
     public const string SCOPE_PUBLIC = 'public';
     public const string SCOPE_INTERNAL = 'internal';
