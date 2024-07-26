@@ -61,6 +61,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         
         $functionDescriptor->describeReturnType($typeReader->generate());
         $functionDescriptor->describePossibleErrors(...$this->buildPossibleErrors($reflectedFunction));
+        $functionDescriptor->setDescription($this->buildDocComment($reflectedFunction));
         
         return $functionDescriptor->asImmutable();
     }
@@ -112,6 +113,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         
         $methodDescriptor->describeReturnType($typeReader->generate());
         $methodDescriptor->describePossibleErrors(...$this->buildPossibleErrors($reflectedMethod));
+        $methodDescriptor->setDescription($this->buildDocComment($reflectedMethod));
         
         return $methodDescriptor->asImmutable();
     }
@@ -208,5 +210,12 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         } catch (\Throwable) {
             return new TypeErrorMessage($template);
         }
+    }
+    
+    protected function buildDocComment(\ReflectionMethod|\ReflectionFunction $method): string
+    {
+        $docComment                 = $method->getDocComment();
+        
+        return $docComment !== false ? $docComment : '';
     }
 }
