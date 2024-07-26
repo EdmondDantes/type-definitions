@@ -16,6 +16,11 @@ interface FunctionDescriptorInterface extends DefinitionInterface
     
     public function getReturnType(): DefinitionInterface;
     
+    /**
+     * @return DefinitionInterface[]
+     */
+    public function getPossibleErrors(): array;
+    
     public function getScope(): string;
     
     public function isInternal(): bool;

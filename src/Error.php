@@ -10,7 +10,7 @@ use IfCastle\TypeDefinitions\NativeSerialization\ArrayTyped;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-readonly class Error                implements AttributeNameInterface, ArraySerializableInterface
+readonly class Error                implements ArraySerializableInterface
 {
     final public const string TEMPLATE     = 't';
     
@@ -49,11 +49,5 @@ readonly class Error                implements AttributeNameInterface, ArraySeri
             $array[self::DESCRIPTION] ?? '',
                 ...ArrayTyped::unserializeList($validator, ...($array[self::PARAMETERS] ?? [])),
         );
-    }
-
-    #[\Override]
-    public function getAttributeName(): string
-    {
-        return self::class;
     }
 }

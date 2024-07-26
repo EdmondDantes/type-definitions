@@ -12,6 +12,13 @@ class TypeFunction                  extends TypeObject
     protected string $scope         = '';
     protected DefinitionInterface $returnType;
     
+    /**
+     * array of return type errors
+     *
+     * @var DefinitionInterface[]
+     */
+    protected array $possibleErrors = [];
+    
     public function __construct(
         string $name,
         string $className           = '',
@@ -53,9 +60,22 @@ class TypeFunction                  extends TypeObject
         return $this->returnType;
     }
     
+    #[\Override]
+    public function getPossibleErrors(): array
+    {
+        return $this->possibleErrors;
+    }
+    
     public function describeReturnType(DefinitionInterface $returnType): static
     {
         $this->returnType           = $returnType;
+        
+        return $this;
+    }
+    
+    public function describePossibleErrors(DefinitionInterface ...$errors): static
+    {
+        $this->possibleErrors       = $errors;
         
         return $this;
     }
