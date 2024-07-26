@@ -12,6 +12,9 @@ interface FunctionDescriptorInterface extends DefinitionInterface
     
     public function getClassName(): string;
     
+    /**
+     * @return DefinitionInterface[]
+     */
     public function getArguments(): array;
     
     public function getReturnType(): DefinitionInterface;
