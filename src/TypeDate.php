@@ -48,7 +48,7 @@ class TypeDate                      extends TypeString
     }
 
     #[\Override]
-    public function decode(array|int|float|string|bool $data): mixed
+    public function decode(array|int|float|string|bool|\DateTimeImmutable|\DateTime $data): mixed
     {
         if(is_string($data)) {
             $data                  = \DateTimeImmutable::createFromFormat('Y-m-d', $data);
