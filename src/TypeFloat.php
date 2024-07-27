@@ -2,7 +2,10 @@
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DecodeException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
+use IfCastle\TypeDefinitions\Exceptions\EncodingException;
+use IfCastle\TypeDefinitions\Value\ValueFloat;
 
 class TypeFloat                     extends DefinitionAbstract
                                     implements NumberMutableInterface
@@ -75,7 +78,19 @@ class TypeFloat                     extends DefinitionAbstract
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        return $data;
+        if(is_float($data)) {
+            return $data;
+        }
+        
+        if(is_numeric($data)) {
+            return (float)$data;
+        }
+        
+        if($data instanceof ValueFloat) {
+            return $data->getValue();
+        }
+        
+        throw new EncodingException($this, 'Value is not a float', ['data' => $data]);
     }
 
     /**
@@ -84,10 +99,31 @@ class TypeFloat                     extends DefinitionAbstract
     #[\Override]
     public function decode(array|int|float|string|bool $data): mixed
     {
-        if(!is_numeric($data)) {
-            throw new DefinitionIsNotValid($this);
+        if(is_string($data)) {
+            
+            if(!preg_match('/^[+-]?[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?$/', $data)) {
+                throw new DecodeException($this, 'Value is not a float', ['data' => $data]);
+            }
+            
+            $data                  = (float)$data;
         }
         
-        return (float)$data;
+        if(is_bool($data) || is_int($data)) {
+            $data                  = (float)$data;
+        }
+        
+        if(!is_float($data)) {
+            throw new DecodeException($this, 'Value is not a float', ['data' => $data]);
+        }
+        
+        if($this->minimum !== null && $data < $this->minimum) {
+            throw new DecodeException($this, 'Value is less than minimum', ['data' => $data]);
+        }
+        
+        if($this->maximum !== null && $data > $this->maximum) {
+            throw new DecodeException($this, 'Value is greater than maximum', ['data' => $data]);
+        }
+        
+        return $data;
     }
 }
