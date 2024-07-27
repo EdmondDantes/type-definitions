@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueUuid;
 
@@ -46,7 +46,7 @@ class TypeUuid                      extends DefinitionAbstract
     }
     
     /**
-     * @throws DecodeException
+     * @throws DecodingException
      */
     #[\Override]
     public function decode(float|array|bool|int|string $data): mixed

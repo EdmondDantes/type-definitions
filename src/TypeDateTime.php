@@ -2,6 +2,9 @@
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
+use IfCastle\TypeDefinitions\Exceptions\EncodingException;
+
 class TypeDateTime                  extends TypeString
 {
     protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) (2[0-3]|[01]\d):[0-5]\d:[0-5]\d$/';
@@ -24,19 +27,42 @@ class TypeDateTime                  extends TypeString
     #[\Override]
     protected function validateValue(mixed $value): bool
     {
-        // TODO: Implement validateValue() method.
+        if($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
+            return true;
+        }
+        
+        if(false === \DateTime::createFromFormat('Y-m-d H:i:s', $value)) {
+            return false;
+        }
+        
         return true;
     }
 
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        return $data;
+        if($data instanceof \DateTimeImmutable || $data instanceof \DateTime) {
+            return $data->format('Y-m-d H:i:s');
+        }
+        
+        throw new EncodingException($this, 'Invalid datetime format. Expected DateTime or DateTimeImmutable', ['data' => $data]);
     }
 
     #[\Override]
     public function decode(float|array|bool|int|string $data): mixed
     {
-        return $data;
+        if(is_string($data)) {
+            $data                  = \DateTime::createFromFormat('Y-m-d H:i:s', $data);
+        }
+        
+        if($data instanceof \DateTime) {
+            return $data;
+        }
+        
+        if($data instanceof \DateTimeImmutable) {
+            return \DateTime::createFromImmutable($data);
+        }
+        
+        throw new DecodingException($this, 'Invalid date format.', ['data' => $data]);
     }
 }

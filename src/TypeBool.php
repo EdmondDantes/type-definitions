@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueBool;
@@ -39,7 +39,7 @@ class TypeBool                      extends DefinitionAbstract
         return match ($data) {
             true, 1, 'true'         => true,
             false, 0, 'false'       => false,
-            default                 => throw new DecodeException($this, 'Invalid boolean format', ['data' => $data])
+            default                 => throw new DecodingException($this, 'Invalid boolean format', ['data' => $data])
         };
     }
     

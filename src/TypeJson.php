@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueJson;
 
@@ -73,7 +73,7 @@ class TypeJson                      extends DefinitionAbstract
     }
     
     /**
-     * @throws DecodeException
+     * @throws DecodingException
      */
     #[\Override]
     public function decode(array|int|float|string|bool $data): mixed
@@ -83,7 +83,7 @@ class TypeJson                      extends DefinitionAbstract
         }
 
         if(!is_array($data)) {
-            throw new DecodeException($this, 'value is not a json', ['value' => $data]);
+            throw new DecodingException($this, 'value is not a json', ['value' => $data]);
         }
 
         if($this->decodeAsNative) {

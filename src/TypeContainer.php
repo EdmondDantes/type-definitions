@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\RemoteException;
 use IfCastle\TypeDefinitions\NativeSerialization\DataEncoder;
 
@@ -45,7 +45,7 @@ class TypeContainer                 extends DefinitionAbstract
     }
     
     /**
-     * @throws DecodeException
+     * @throws DecodingException
      */
     public function decode(mixed $data): mixed
     {
@@ -58,25 +58,25 @@ class TypeContainer                 extends DefinitionAbstract
         }
         
         if (!is_array($data)) {
-            throw new DecodeException($this, 'Expected array', ['value' => get_debug_type($data)]);
+            throw new DecodingException($this, 'Expected array', ['value' => get_debug_type($data)]);
         }
         
         if (count($data) !== 2) {
-            throw new DecodeException($this, 'Expected array with two elements');
+            throw new DecodingException($this, 'Expected array with two elements');
         }
         
         [$type, $decodedData]       = $data;
         
         if (false === is_string($type)) {
-            throw new DecodeException($this, 'Expected string as type', ['type' => get_debug_type($type)]);
+            throw new DecodingException($this, 'Expected string as type', ['type' => get_debug_type($type)]);
         }
         
         if (false === class_exists($type)) {
-            throw new DecodeException($this, 'Type class does not exist', ['type' => $type]);
+            throw new DecodingException($this, 'Type class does not exist', ['type' => $type]);
         }
         
         if (false === is_subclass_of($type, DefinitionStaticAwareInterface::class)) {
-            throw new DecodeException(
+            throw new DecodingException(
                 $this,
                 'Type class should be instance of DefinitionStaticAwareInterface',
                 ['type' => $type]

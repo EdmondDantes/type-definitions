@@ -3,7 +3,7 @@
 namespace IfCastle\TypeDefinitions;
 
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\InstantiateInterface;
 use IfCastle\TypeDefinitions\Value\ValueObject;
@@ -47,7 +47,7 @@ class TypeObject                    extends DefinitionAbstract
     }
 
     /**
-     * @throws DecodeException
+     * @throws DecodingException
      * @throws \JsonException
      */
     #[\Override]
@@ -64,13 +64,13 @@ class TypeObject                    extends DefinitionAbstract
         $instantiableClass      = $this->instantiableClass !== '' ? $this->instantiableClass : ValueObject::class;
         
         if(!class_exists($instantiableClass)) {
-            throw new DecodeException($this, 'instantiable class not exists', ['value' => $instantiableClass]);
+            throw new DecodingException($this, 'instantiable class not exists', ['value' => $instantiableClass]);
         }
         
         $unknownProperties      = array_diff(array_keys($data), array_keys($this->properties));
         
         if($unknownProperties !== []) {
-            throw new DecodeException($this, 'Unknown properties', ['properties' => $unknownProperties]);
+            throw new DecodingException($this, 'Unknown properties', ['properties' => $unknownProperties]);
         }
         
         $decodedData            = [];
@@ -84,14 +84,14 @@ class TypeObject                    extends DefinitionAbstract
                 }
                 
                 if($property->isRequired()) {
-                    throw new DecodeException($this, 'Required property not found', ['property' => $key]);
+                    throw new DecodingException($this, 'Required property not found', ['property' => $key]);
                 }
                 
                 continue;
             }
             
             if($data[$key] === null && false === $property->isNullable()) {
-                throw new DecodeException($this, 'Property is not nullable', ['property' => $key]);
+                throw new DecodingException($this, 'Property is not nullable', ['property' => $key]);
             }
             
             $decodedData[$property->getName()] = $property->decode($data[$key]);

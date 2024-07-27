@@ -3,7 +3,7 @@
 namespace IfCastle\TypeDefinitions;
 
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Exceptions\ParseException;
@@ -416,14 +416,14 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
     
     /**
-     * @throws DecodeException
+     * @throws DecodingException
      */
     protected function jsonDecode(string $value): array
     {
         $result                     = json_decode($value, true);
         
         if(!is_array($result)) {
-            throw new DecodeException($this, 'value is not a json: '.json_last_error_msg(), ['value' => $value]);
+            throw new DecodingException($this, 'value is not a json: ' . json_last_error_msg(), ['value' => $value]);
         }
         
         return $result;

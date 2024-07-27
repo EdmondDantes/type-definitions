@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\InstantiateInterface;
@@ -112,7 +112,7 @@ class TypeString                    extends DefinitionAbstract
      * @throws DefinitionIsNotValid
      */
     #[\Override]
-    public function decode(mixed $data): mixed
+    public function decode(array|int|float|string|bool $data): mixed
     {
         if(is_string($data)) {
             
@@ -133,7 +133,7 @@ class TypeString                    extends DefinitionAbstract
             return (string)$data;
         }
         
-        throw new DecodeException($this, 'Invalid string format', ['data' => $data]);
+        throw new DecodingException($this, 'Invalid string format', ['data' => $data]);
     }
     
     #[\Override]

@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\Exceptions\DecodeException;
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueFloat;
@@ -102,7 +102,7 @@ class TypeFloat                     extends DefinitionAbstract
         if(is_string($data)) {
             
             if(!preg_match('/^[+-]?[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?$/', $data)) {
-                throw new DecodeException($this, 'Value is not a float', ['data' => $data]);
+                throw new DecodingException($this, 'Value is not a float', ['data' => $data]);
             }
             
             $data                  = (float)$data;
@@ -113,15 +113,15 @@ class TypeFloat                     extends DefinitionAbstract
         }
         
         if(!is_float($data)) {
-            throw new DecodeException($this, 'Value is not a float', ['data' => $data]);
+            throw new DecodingException($this, 'Value is not a float', ['data' => $data]);
         }
         
         if($this->minimum !== null && $data < $this->minimum) {
-            throw new DecodeException($this, 'Value is less than minimum', ['data' => $data]);
+            throw new DecodingException($this, 'Value is less than minimum', ['data' => $data]);
         }
         
         if($this->maximum !== null && $data > $this->maximum) {
-            throw new DecodeException($this, 'Value is greater than maximum', ['data' => $data]);
+            throw new DecodingException($this, 'Value is greater than maximum', ['data' => $data]);
         }
         
         return $data;
