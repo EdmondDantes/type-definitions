@@ -31,11 +31,7 @@ class TypeOneOf                     extends DefinitionAbstract
     
     public function describeCase(DefinitionInterface $definition): static
     {
-        if(array_key_exists($definition->getName(), $this->cases)) {
-            throw new DescribeException(sprintf('Case \'%s\' already exists ', $definition->getName()), $this);
-        }
-        
-        $this->cases[$definition->getName()] = $definition;
+        $this->cases[]              = $definition;
         
         return $this;
     }

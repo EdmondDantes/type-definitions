@@ -28,9 +28,10 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         return match ($typeName) {
             'null'                  => new TypeNull($name),
+            'void'                  => new TypeVoid($name),
             'bool'                  => new TypeBool($name),
             'string'                => new TypeString($name),
-            'integer'               => new TypeInteger($name),
+            'int'                   => new TypeInteger($name),
             'float'                 => new TypeFloat($name),
             'array'                 => new TypeJson($name),
             default                 => null,
