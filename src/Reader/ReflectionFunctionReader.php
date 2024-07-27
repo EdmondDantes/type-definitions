@@ -161,7 +161,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
                 if(is_subclass_of($errorClassName, DefinitionByErrorAbleInterface::class)) {
                     $definition     = call_user_func($errorClassName.'::definitionByError', $error);
                 } else {
-                    $definition     = $this->buildErrorDescriptorByExceptionClass($errorClassName);
+                    $definition     = $this->buildErrorDescriptorByExceptionClass($errorClassName, $error);
                 }
 
                 if($definition instanceof DefinitionInterface === false) {
@@ -181,7 +181,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         return $errors;
     }
     
-    protected function buildErrorDescriptorByExceptionClass(string $errorClassName): DefinitionInterface
+    protected function buildErrorDescriptorByExceptionClass(string $errorClassName, Error $error): DefinitionInterface
     {
         if(false === is_subclass_of($errorClassName, \Throwable::class)) {
             throw new DefinitionBuilderException([
@@ -193,6 +193,10 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         
         if(false === is_subclass_of($errorClassName, BaseExceptionInterface::class)) {
             return new TypeErrorMessage('internal error');
+        }
+        
+        if($error->template !== '') {
+            return (new TypeErrorMessage($error->template, ...$error->parameters))->setDescription($error->description);
         }
         
         // Try to extract the template from the error class if possible
