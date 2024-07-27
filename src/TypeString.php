@@ -2,7 +2,11 @@
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DecodeException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
+use IfCastle\TypeDefinitions\Exceptions\EncodingException;
+use IfCastle\TypeDefinitions\Value\InstantiateInterface;
+use IfCastle\TypeDefinitions\Value\ValueString;
 
 class TypeString                    extends DefinitionAbstract
                                     implements StringableMutableInterface
@@ -111,6 +115,17 @@ class TypeString                    extends DefinitionAbstract
     public function decode(mixed $data): mixed
     {
         if(is_string($data)) {
+            
+            if($this->instantiableClass !== '') {
+                $class              = $this->instantiableClass;
+                
+                if(is_subclass_of($class, InstantiateInterface::class)) {
+                    $data           = $class::instantiate($data, $this);
+                } else {
+                    throw new DefinitionIsNotValid($this, 'Instantiable class does not implement InstantiateInterface');
+                }
+            }
+            
             return $data;
         }
         
@@ -118,12 +133,24 @@ class TypeString                    extends DefinitionAbstract
             return (string)$data;
         }
         
-        throw new DefinitionIsNotValid($this, 'value is not a string');
+        throw new DecodeException($this, 'Invalid string format', ['data' => $data]);
     }
     
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        return (string) $data;
+        if($data instanceof ValueString) {
+            return $data->getValue();
+        }
+        
+        if(is_scalar($data)) {
+            return (string)$data;
+        }
+        
+        if($data === null) {
+            return null;
+        }
+        
+        throw new EncodingException($this, 'Expected type string', ['data' => $data]);
     }
 }

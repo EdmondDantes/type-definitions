@@ -2,7 +2,10 @@
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DecodeException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
+use IfCastle\TypeDefinitions\Exceptions\EncodingException;
+use IfCastle\TypeDefinitions\Value\ValueBool;
 
 class TypeBool                      extends DefinitionAbstract
 {
@@ -27,7 +30,7 @@ class TypeBool                      extends DefinitionAbstract
      * @throws DefinitionIsNotValid
      */
     #[\Override]
-    public function decode(array|int|float|string|bool $data): mixed
+    public function decode(array|int|float|string|bool $data): bool
     {
         if(is_string($data)) {
             $data                   = strtolower($data);
@@ -36,14 +39,21 @@ class TypeBool                      extends DefinitionAbstract
         return match ($data) {
             true, 1, 'true'         => true,
             false, 0, 'false'       => false,
-            default                 => throw new DefinitionIsNotValid($this, 'Boolean type is invalid'),
+            default                 => throw new DecodeException($this, 'Invalid boolean format', ['data' => $data])
         };
     }
     
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        // TODO: Implement encode() method.
-        return $data;
+        if(is_bool($data)) {
+            return $data;
+        }
+        
+        if($data instanceof ValueBool) {
+            return $data->getValue();
+        }
+        
+        throw new EncodingException($this, 'Expected type bool', ['data' => $data]);
     }
 }
