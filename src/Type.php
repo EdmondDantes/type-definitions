@@ -12,7 +12,7 @@ use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 /**
  * Specifies a type descriptor for function parameters, properties, class constants.
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER | Attribute::TARGET_CLASS_CONSTANT)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER | Attribute::TARGET_CLASS_CONSTANT | Attribute::TARGET_CLASS)]
 readonly class Type                 implements AttributeNameInterface, ArraySerializableInterface
 {
     public function __construct(public DefinitionInterface $definition)
