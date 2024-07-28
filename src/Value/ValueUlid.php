@@ -3,20 +3,14 @@
 namespace IfCastle\TypeDefinitions\Value;
 
 use IfCastle\TypeDefinitions\DefinitionMutableInterface;
-use IfCastle\TypeDefinitions\TypeUuid;
-use Symfony\Component\Uid\Ulid;
+use IfCastle\TypeDefinitions\TypeUlid;
 
 class ValueUlid                     extends ValueContainer
 {
-    public static function create(): string
-    {
-        return (new Ulid)->toBase58();
-    }
-
     #[\Override]
     public static function definition(): DefinitionMutableInterface
     {
-        return new TypeUuid('guid');
+        return new TypeUlid('ulid');
     }
     
     public function __construct(string $value)

@@ -8,51 +8,58 @@ use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueUuid;
 
-class TypeUuid                      extends DefinitionAbstract
+class TypeUuid                      extends TypeString
 {
+    final const string PREG_UUID    = '/^{?[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}}?$/i';
+    
+    public static function nullGuid(): string
+    {
+        return '00000000-0000-0000-0000-000000000000';
+    }
+    
+    public static function maxGuid(): string
+    {
+        return 'ffffffff-ffff-ffff-ffff-ffffffffffff';
+    }
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'uuid', $isRequired, $isNullable);
+        parent::__construct($name, $isRequired, $isNullable);
+        $this->type                 = 'uuid';
     }
     
-    #[\Override]
-    protected function validateValue(mixed $value): bool
+    public function decode(array|int|float|string|bool $data): mixed
     {
-        if(!is_string($value)) {
-            return false;
+        if(!is_string($data) || !preg_match(self::PREG_UUID, $data)) {
+            throw new DecodingException($this, 'Expected string with UUID format');
         }
         
-        // match UUID format
-        return (bool) preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $value);
-    }
-    
-    #[\Override]
-    public function isScalar(): bool
-    {
-        return true;
+        return new ValueUuid(parent::decode($data));
     }
     
     /**
      * @throws EncodingException
      */
-    #[\Override]
     public function encode(mixed $data): mixed
     {
+        if(is_string($data)) {
+            return $data;
+        }
+        
         if($data instanceof ValueUuid) {
             return $data->getValue();
         }
         
-        throw new EncodingException($this, 'Only ValueUuid values can be encoded');
+        throw new EncodingException($this, 'Expected ValueUuid type or string');
     }
     
-    /**
-     * @throws DecodingException
-     */
-    #[\Override]
-    public function decode(float|array|bool|int|string $data): mixed
+    public static function isUuid(mixed $value): bool
     {
-        $this->validate($data);
-        
-        return new ValueUuid($data);
+        return is_string($value) && preg_match(self::PREG_UUID, $value);
+    }
+    
+    protected function validateValue($value): bool
+    {
+        return parent::validateValue($value) && preg_match(self::PREG_UUID, $value);
     }
 }
