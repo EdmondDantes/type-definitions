@@ -40,7 +40,7 @@ class TypeDateTimeTest extends TestCase
     {
         $typeDateTime = new TypeDateTime('test');
         $dateTime = $typeDateTime->decode('2023-10-01 12:00:00');
-        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);
         $this->assertEquals('2023-10-01 12:00:00', $dateTime->format('Y-m-d H:i:s'));
     }
     

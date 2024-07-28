@@ -5,17 +5,62 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 
-class TypeDateTime                  extends TypeString
+class TypeDateTime                  extends DefinitionAbstract
+                                    implements StringableInterface
 {
     protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) (2[0-3]|[01]\d):[0-5]\d:[0-5]\d$/';
     
     protected string|null $ecmaPattern  = '[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]';
     
+    protected bool $dateAsImmutable     = true;
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, $isRequired, $isNullable);
+        parent::__construct($name, 'datetime', $isRequired, $isNullable);
+    }
+    
+    public function dateAsImmutable(): static
+    {
+        $this->dateAsImmutable          = true;
         
-        $this->type                     = 'datetime';
+        return $this;
+    }
+    
+    public function dateAsMutable(): static
+    {
+        $this->dateAsImmutable          = false;
+        
+        return $this;
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return 19;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return 19;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return $this->pattern;
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return $this->ecmaPattern;
     }
     
     #[\Override]
@@ -55,12 +100,12 @@ class TypeDateTime                  extends TypeString
             $data                  = \DateTime::createFromFormat('Y-m-d H:i:s', $data);
         }
         
-        if($data instanceof \DateTime) {
+        if($data instanceof \DateTimeImmutable) {
             return $data;
         }
         
-        if($data instanceof \DateTimeImmutable) {
-            return \DateTime::createFromImmutable($data);
+        if($data instanceof \DateTime) {
+            return \DateTimeImmutable::createFromMutable($data);
         }
         
         throw new DecodingException($this, 'Invalid date format.', ['data' => $data]);

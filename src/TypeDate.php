@@ -5,16 +5,62 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 
-class TypeDate                      extends TypeString
+class TypeDate                      extends DefinitionAbstract
+                                    implements StringableInterface
 {
     protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$/';
     
     protected string|null $ecmaPattern  = '[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])';
     
+    protected bool $dateAsImmutable     = true;
+    
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, $isRequired, $isNullable);
-        $this->type                     = 'date';
+        parent::__construct($name, 'date', $isRequired, $isNullable);
+    }
+    
+    public function dateAsImmutable(): static
+    {
+        $this->dateAsImmutable          = true;
+        
+        return $this;
+    }
+    
+    public function dateAsMutable(): static
+    {
+        $this->dateAsImmutable          = false;
+        
+        return $this;
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return 10;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return 10;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return $this->pattern;
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return $this->ecmaPattern;
     }
     
     #[\Override]
@@ -53,6 +99,8 @@ class TypeDate                      extends TypeString
         if(is_string($data)) {
             $data                  = \DateTimeImmutable::createFromFormat('Y-m-d', $data);
         }
+        
+        if($this->dateAsImmutable)
         
         if($data instanceof \DateTimeImmutable) {
             return $data;
