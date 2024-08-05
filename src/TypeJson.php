@@ -115,4 +115,10 @@ class TypeJson                      extends DefinitionAbstract
 
         return $result;
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

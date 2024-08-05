@@ -54,4 +54,10 @@ class TypeOptions                   extends DefinitionAbstract
     {
         return parent::buildOpenApiSchema($definitionHandler) + ['enum' => $this->variants];
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return $this->option->canDecodeFromString();
+    }
 }

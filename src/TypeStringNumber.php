@@ -15,4 +15,10 @@ class TypeStringNumber              extends TypeOneOf
             ->describeCase(new TypeInteger('integer'))
             ->describeCase(new TypeFloat('float'));
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

@@ -56,4 +56,9 @@ class TypeBool                      extends DefinitionAbstract
         
         throw new EncodingException($this, 'Expected type bool', ['data' => $data]);
     }
+    
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

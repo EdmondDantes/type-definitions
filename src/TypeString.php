@@ -153,4 +153,9 @@ class TypeString                    extends DefinitionAbstract
         
         throw new EncodingException($this, 'Expected type string', ['data' => $data]);
     }
+    
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

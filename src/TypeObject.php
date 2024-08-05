@@ -187,4 +187,16 @@ class TypeObject                    extends DefinitionAbstract
     
         return $required;
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
+
+    #[\Override]
+    public function canDecodeFromArray(): bool
+    {
+        return true;
+    }
 }

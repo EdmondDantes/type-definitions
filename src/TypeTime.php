@@ -157,4 +157,10 @@ class TypeTime                      extends DefinitionAbstract
         
         return new ValueTime($hour, $minute, $second, $microsecond, $timezoneOffset);
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

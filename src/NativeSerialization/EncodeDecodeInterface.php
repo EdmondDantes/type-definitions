@@ -8,4 +8,8 @@ interface EncodeDecodeInterface
     public function encode(mixed $data): mixed;
     
     public function decode(array|int|float|string|bool $data): mixed;
+    
+    public function canDecodeFromString(): bool;
+    
+    public function canDecodeFromArray(): bool;
 }

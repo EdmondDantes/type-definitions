@@ -16,4 +16,10 @@ class TypeScalar         extends TypeOneOf
             ->describeCase(new TypeInteger('number'))
             ->describeCase(new TypeFloat('float'));
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

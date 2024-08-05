@@ -126,4 +126,10 @@ class TypeFloat                     extends DefinitionAbstract
         
         return $data;
     }
+    
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }

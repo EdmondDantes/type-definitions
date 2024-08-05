@@ -430,6 +430,18 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
     
     #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function canDecodeFromArray(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
     public function toArray(ArraySerializableValidatorInterface $validator = null): array
     {
         return

@@ -112,4 +112,10 @@ class TypeDate                      extends DefinitionAbstract
         
         throw new DecodingException($this, 'Invalid date format.', ['data' => $data]);
     }
+
+    #[\Override]
+    public function canDecodeFromString(): bool
+    {
+        return true;
+    }
 }
