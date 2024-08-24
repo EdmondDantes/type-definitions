@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\NativeSerialization;
 
-use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableInterface;
-use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
-use Exceptions\LogicalException;
-use Exceptions\UnSerializeException;
+use IfCastle\Exceptions\LogicalException;
+use IfCastle\Exceptions\UnSerializeException;
 
-class ArrayTyped
+final class ArrayTyped
 {
     /**
      * special array-key for type information
