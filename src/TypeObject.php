@@ -110,7 +110,10 @@ class TypeObject                    extends DefinitionAbstract
     #[\Override]
     public function encode(mixed $data): mixed
     {
+        $notEncoded                 = true;
+        
         if($data instanceof ArraySerializableInterface) {
+            $notEncoded             = false;
             $data                   = $data->toArray();
         }
 
@@ -141,7 +144,9 @@ class TypeObject                    extends DefinitionAbstract
                 throw new EncodingException($this, 'Property is not nullable', ['property' => $key]);
             }
 
-            $encoded[$key]          = $property->encode($data[$propertyName]);
+            if($notEncoded) {
+                $encoded[$key]      = $property->encode($data[$propertyName]);
+            }
         }
 
         return $encoded;
