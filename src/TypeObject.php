@@ -143,10 +143,8 @@ class TypeObject                    extends DefinitionAbstract
             if($data[$propertyName] === null && false === $property->isNullable()) {
                 throw new EncodingException($this, 'Property is not nullable', ['property' => $key]);
             }
-
-            if($notEncoded) {
-                $encoded[$key]      = $property->encode($data[$propertyName]);
-            }
+            
+            $encoded[$key]      = $notEncoded ? $property->encode($data[$propertyName]) : $data[$propertyName];
         }
 
         return $encoded;
