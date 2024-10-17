@@ -8,7 +8,7 @@ use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 class TypeDate                      extends DefinitionAbstract
                                     implements StringableInterface
 {
-    protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$/';
+    protected string|null $pattern      = '\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])';
     
     protected string|null $ecmaPattern  = '[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])';
     

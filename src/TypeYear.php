@@ -10,4 +10,16 @@ class TypeYear                      extends TypeInteger
         
         $this->type                 = TypesEnum::YEAR->value;
     }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return '-?\d{4}';
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return '-?\\d{4}';
+    }
 }

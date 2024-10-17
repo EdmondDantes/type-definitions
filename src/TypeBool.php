@@ -8,6 +8,7 @@ use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueBool;
 
 class TypeBool                      extends DefinitionAbstract
+                                    implements StringableInterface
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
@@ -18,6 +19,36 @@ class TypeBool                      extends DefinitionAbstract
     public function isScalar(): bool
     {
         return true;
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return 5;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return 4;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return '(true|false|1|0)';
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return '(true|false|1|0)';
     }
     
     #[\Override]

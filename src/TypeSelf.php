@@ -11,6 +11,12 @@ class TypeSelf                      extends DefinitionAbstract
     }
     
     #[\Override]
+    public function isScalar(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
     protected function validateValue(mixed $value): bool
     {
         return false;

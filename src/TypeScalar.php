@@ -6,6 +6,7 @@ namespace IfCastle\TypeDefinitions;
  * Enum with human-readable simple types
  */
 class TypeScalar         extends TypeOneOf
+                         implements StringableInterface
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
@@ -21,5 +22,35 @@ class TypeScalar         extends TypeOneOf
     public function canDecodeFromString(): bool
     {
         return true;
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return null;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return null;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return null;
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return null;
     }
 }

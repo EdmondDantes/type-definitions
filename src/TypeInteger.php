@@ -5,7 +5,7 @@ namespace IfCastle\TypeDefinitions;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 
 class TypeInteger                   extends DefinitionAbstract
-                                    implements NumberMutableInterface
+                                    implements NumberMutableInterface, StringableInterface
 {
     protected int|null $minimum     = null;
     
@@ -14,6 +14,36 @@ class TypeInteger                   extends DefinitionAbstract
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
         parent::__construct($name, TypesEnum::INTEGER->value, $isRequired, $isNullable);
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return 11;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return 0;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return '-?\d+';
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return '-?\\d+';
     }
     
     #[\Override]

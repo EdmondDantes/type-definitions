@@ -39,7 +39,7 @@ class TypeTime                      extends DefinitionAbstract
     #[\Override]
     public function getPattern(): string|null
     {
-        return '^([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]{3,6})([+-][0-9]{2}:[0-9]{2})?)?)?$';
+        return '([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]{3,6})([+-][0-9]{2}:[0-9]{2})?)?)?';
     }
     
     #[\Override]
@@ -61,7 +61,7 @@ class TypeTime                      extends DefinitionAbstract
             return false;
         }
         
-        if(!preg_match('/^([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]{3,6})([+-][0-9]{2}:[0-9]{2})?)?)?$/', $value, $matches)) {
+        if(!preg_match('/^'.$this->getPattern().'$/', $value, $matches)) {
             return false;
         }
         
@@ -110,7 +110,7 @@ class TypeTime                      extends DefinitionAbstract
             );
         }
         
-        if(!preg_match('/^([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]{3,6})([+-][0-9]{2}:[0-9]{2})?)?)?$/', $data, $matches)) {
+        if(!preg_match('/^'.$this->getPattern().'$/', $data, $matches)) {
             throw new DecodingException(
                 $this,
                 'Expected string like 00:00 or 00:00:00 or 00:00:00.000 or 00:00:00.000000 or 00:00:00.000000+00:00',

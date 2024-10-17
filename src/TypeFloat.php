@@ -8,7 +8,7 @@ use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueFloat;
 
 class TypeFloat                     extends DefinitionAbstract
-                                    implements NumberMutableInterface
+                                    implements NumberMutableInterface, StringableInterface
 {
     protected float|null $minimum   = null;
     
@@ -17,6 +17,36 @@ class TypeFloat                     extends DefinitionAbstract
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
         parent::__construct($name, TypesEnum::FLOAT->value, $isRequired, $isNullable);
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        return 22;
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        return 0;
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return '-?\d+(\.\d+)?';
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return '-?\\d+(\\.\\d+)?';
     }
     
     public function isUnsigned(): bool
