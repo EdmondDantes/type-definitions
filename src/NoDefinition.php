@@ -27,7 +27,7 @@ class NoDefinition                  extends DefinitionAbstract
     
     public function __construct()
     {
-        parent::__construct('NoDefinition', self::TYPE_NULL, false, true);
+        parent::__construct('NoDefinition', 'null', false, true);
     }
     
     #[\Override]
