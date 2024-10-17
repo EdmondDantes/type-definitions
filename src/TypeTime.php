@@ -15,7 +15,7 @@ class TypeTime                      extends DefinitionAbstract
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'time', $isRequired, $isNullable);
+        parent::__construct($name, TypesEnum::TIME->value, $isRequired, $isNullable);
     }
     
     #[\Override]

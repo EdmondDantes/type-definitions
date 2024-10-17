@@ -16,7 +16,7 @@ class TypeDateTime                  extends DefinitionAbstract
     
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'datetime', $isRequired, $isNullable);
+        parent::__construct($name, TypesEnum::DATETIME->value, $isRequired, $isNullable);
     }
     
     public function dateAsImmutable(): static

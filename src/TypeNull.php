@@ -6,7 +6,7 @@ class TypeNull                      extends DefinitionAbstract
 {
     public function __construct(string $name, bool $isRequired = true)
     {
-        parent::__construct($name, 'null', $isRequired);
+        parent::__construct($name, TypesEnum::NULL->value, $isRequired);
     }
     
     #[\Override]

@@ -16,7 +16,7 @@ class TypeFloat                     extends DefinitionAbstract
     
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'float', $isRequired, $isNullable);
+        parent::__construct($name, TypesEnum::FLOAT->value, $isRequired, $isNullable);
     }
     
     public function isUnsigned(): bool

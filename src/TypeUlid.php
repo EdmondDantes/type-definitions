@@ -14,7 +14,7 @@ class TypeUlid                      extends TypeString
     {
         parent::__construct($name, $isRequired, $isNullable);
         
-        $this->type                 = 'ulid';
+        $this->type                 = TypesEnum::ULID->value;
     }
     
     #[\Override]

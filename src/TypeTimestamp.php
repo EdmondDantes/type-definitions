@@ -9,6 +9,6 @@ class TypeTimestamp                 extends TypeInteger
     {
         parent::__construct($name, $isRequired, $isNullable);
         
-        $this->type                 = 'timestamp';
+        $this->type                 = TypesEnum::TIMESTAMP->value;
     }
 }

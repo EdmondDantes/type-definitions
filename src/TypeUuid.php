@@ -25,7 +25,7 @@ class TypeUuid                      extends TypeString
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
         parent::__construct($name, $isRequired, $isNullable);
-        $this->type                 = 'uuid';
+        $this->type                 = TypesEnum::UUID->value;
     }
     
     public function decode(array|int|float|string|bool $data): mixed

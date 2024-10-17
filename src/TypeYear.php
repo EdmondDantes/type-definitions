@@ -8,6 +8,6 @@ class TypeYear                      extends TypeInteger
     {
         parent::__construct($name, $isRequired, $isNullable);
         
-        $this->type                 = 'year';
+        $this->type                 = TypesEnum::YEAR->value;
     }
 }

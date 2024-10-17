@@ -14,6 +14,8 @@ enum TypesEnum: string
     case BINARY                     = 'binary';
     
     case NULL                       = 'null';
+    case MIXED                      = 'mixed';
+    case VOID                       = 'void';
     
     case ENUM                       = 'enum';
     case DATE                       = 'date';
