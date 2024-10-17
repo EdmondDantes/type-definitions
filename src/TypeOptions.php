@@ -10,14 +10,60 @@ use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
  *
  */
 class TypeOptions                   extends DefinitionAbstract
+                                    implements StringableInterface
 {
-    public function __construct(string $name, protected DefinitionMutableInterface $option, protected array $variants, bool $isRequired = true, bool $isNullable = false)
+    /**
+     * @throws DefinitionIsNotValid
+     */
+    public function __construct(
+        string                               $name,
+        protected DefinitionMutableInterface & StringableInterface $option,
+        protected array                      $variants,
+        bool                                 $isRequired = true,
+        bool                                 $isNullable = false
+    )
     {
         parent::__construct($name, 'options', $isRequired, $isNullable);
         
         if($this->variants === []) {
             throw new DefinitionIsNotValid($this, 'Variants empty');
         }
+    }
+    
+    #[\Override]
+    public function isBinary(): bool
+    {
+        return false;
+    }
+    
+    #[\Override]
+    public function getMaxLength(): int|null
+    {
+        // max length of the longest variant
+        return max(array_map('strlen', $this->variants));
+    }
+    
+    #[\Override]
+    public function getMinLength(): int|null
+    {
+        // min length of the shortest variant
+        return min(array_map('strlen', $this->variants));
+    }
+    
+    #[\Override]
+    public function getPattern(): string|null
+    {
+        return implode(
+            '|', \array_map(static fn($item) => \preg_quote((string)$item), $this->variants)
+        );
+    }
+    
+    #[\Override]
+    public function getEcmaPattern(): string|null
+    {
+        return implode(
+            '|', \array_map(static fn($item) => \preg_quote((string)$item), $this->variants)
+        );
     }
     
     #[\Override]
