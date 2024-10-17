@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-enum NamesEnum: string
+enum TypesEnum: string
 {
     case BOOL                       = 'bool';
     case INTEGER                    = 'integer';
