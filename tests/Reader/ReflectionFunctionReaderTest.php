@@ -7,6 +7,7 @@ use IfCastle\TypeDefinitions\Error;
 use IfCastle\TypeDefinitions\Resolver\ExplicitTypeResolver;
 use IfCastle\TypeDefinitions\TypeErrorMessage;
 use IfCastle\TypeDefinitions\TypeFunction;
+use IfCastle\TypeDefinitions\TypesEnum;
 use IfCastle\TypeDefinitions\TypeVoid;
 use PHPUnit\Framework\TestCase;
 
@@ -30,19 +31,19 @@ class ReflectionFunctionReaderTest  extends TestCase
             
             switch ($argument->getName()) {
                 case 'integer':
-                    $this->assertEquals('integer', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::INTEGER->value, $argument->getTypeName());
                     break;
                 case 'float':
-                    $this->assertEquals('float', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::FLOAT->value, $argument->getTypeName());
                     break;
                 case 'boolean':
-                    $this->assertEquals('bool', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::BOOL->value, $argument->getTypeName());
                     break;
                 case 'array':
-                    $this->assertEquals('array', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::ARRAY->value, $argument->getTypeName());
                     break;
                 case 'string':
-                    $this->assertEquals('string', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::STRING->value, $argument->getTypeName());
                     break;
                 default:
                     $this->fail('Unknown argument type');
@@ -76,19 +77,19 @@ class ReflectionFunctionReaderTest  extends TestCase
             
             switch ($argument->getName()) {
                 case 'integer':
-                    $this->assertEquals('integer', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::INTEGER->value, $argument->getTypeName());
                     break;
                 case 'float':
-                    $this->assertEquals('float', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::FLOAT->value, $argument->getTypeName());
                     break;
                 case 'boolean':
-                    $this->assertEquals('bool', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::BOOL->value, $argument->getTypeName());
                     break;
                 case 'array':
-                    $this->assertEquals('array', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::ARRAY->value, $argument->getTypeName());
                     break;
                 case 'string':
-                    $this->assertEquals('string', $argument->getTypeName());
+                    $this->assertEquals(TypesEnum::STRING->value, $argument->getTypeName());
                     break;
                 default:
                     $this->fail('Unknown argument type');
