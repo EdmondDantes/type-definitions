@@ -15,7 +15,7 @@ class TypeList                      extends DefinitionAbstract
 
     public function __construct(string $name, protected DefinitionInterface $itemDefinition, bool $isRequired = true, bool $isNullable = false)
     {
-        parent::__construct($name, 'list', $isRequired, $isNullable);
+        parent::__construct($name, TypesEnum::LIST->value, $isRequired, $isNullable);
     }
 
     /**

@@ -23,8 +23,13 @@ enum TypesEnum: string
     case TIME                       = 'time';
     case TIMESTAMP                  = 'timestamp';
     case YEAR                       = 'year';
-    case YEAR_MONTH                 = 'year_month';
+    case YEAR_MONTH                 = 'yearMonth';
     
     case UUID                       = 'uuid';
     case ULID                       = 'ulid';
+    
+    case OPTIONS                    = 'options';
+    case KEY_LIST                   = 'keyList';
+    case LIST                       = 'list';
+    case ONE_OF                     = 'oneOf';
 }

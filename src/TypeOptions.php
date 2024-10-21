@@ -23,7 +23,7 @@ class TypeOptions                   extends DefinitionAbstract
         bool                                 $isNullable = false
     )
     {
-        parent::__construct($name, 'options', $isRequired, $isNullable);
+        parent::__construct($name, TypesEnum::OPTIONS->value, $isRequired, $isNullable);
         
         if($this->variants === []) {
             throw new DefinitionIsNotValid($this, 'Variants empty');

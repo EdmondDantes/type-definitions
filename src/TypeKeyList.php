@@ -18,7 +18,7 @@ class TypeKeyList                   extends TypeList
     {
         parent::__construct($name, $itemDefinition, $isRequired, $isNullable);
         
-        $this->type                 = 'key_list';
+        $this->type                 = TypesEnum::KEY_LIST->value;
     }
     
     #[\Override]
