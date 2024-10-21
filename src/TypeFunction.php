@@ -35,6 +35,7 @@ class TypeFunction                  extends TypeObject
         );
         
         $this->type                 = 'function';
+        $this->functionName         = $name;
         $this->className            = $className;
         $this->isStatic             = $isStatic;
         $this->scope                = $scope;
