@@ -53,7 +53,7 @@ class TypeString                    extends DefinitionAbstract
             return false;
         }
 
-        if($this->pattern !== null && !preg_match($this->pattern, $value)) {
+        if($this->pattern !== null && !preg_match('/^'.$this->pattern.'/', $value)) {
             return false;
         }
         

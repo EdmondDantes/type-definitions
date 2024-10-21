@@ -10,7 +10,7 @@ use IfCastle\TypeDefinitions\Value\ValueUuid;
 
 class TypeUuid                      extends TypeString
 {
-    final const string PREG_UUID    = '/^{?[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}}?$/i';
+    final const string PREG_UUID    = '{?[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}}?';
     
     public static function nullGuid(): string
     {
@@ -26,11 +26,12 @@ class TypeUuid                      extends TypeString
     {
         parent::__construct($name, $isRequired, $isNullable);
         $this->type                 = TypesEnum::UUID->value;
+        $this->pattern              = self::PREG_UUID;
     }
     
     public function decode(array|int|float|string|bool $data): mixed
     {
-        if(!is_string($data) || !preg_match(self::PREG_UUID, $data)) {
+        if(!is_string($data) || !preg_match('/^'.self::PREG_UUID.'$/i', $data)) {
             throw new DecodingException($this, 'Expected string with UUID format');
         }
         
@@ -55,11 +56,11 @@ class TypeUuid                      extends TypeString
     
     public static function isUuid(mixed $value): bool
     {
-        return is_string($value) && preg_match(self::PREG_UUID, $value);
+        return is_string($value) && preg_match('/^'.self::PREG_UUID.'$/i', $value);
     }
     
     protected function validateValue($value): bool
     {
-        return parent::validateValue($value) && preg_match(self::PREG_UUID, $value);
+        return parent::validateValue($value);
     }
 }
