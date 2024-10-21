@@ -21,6 +21,7 @@ class ReflectionTransferObjectReader
         $classReflection            = new \ReflectionClass($this->object);
         
         $objectDescriptor           = new TypeObject($classReflection->getName());
+        $objectDescriptor->setAttributes($this->extractAttributes($classReflection));
         
         foreach ($this->extractProperties($classReflection) as $property) {
             $typeContext            = new TypeContext(
