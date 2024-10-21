@@ -27,13 +27,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     public static function getDefinitionByNativeTypeName(string $typeName, string $name): ?DefinitionMutableInterface
     {
         return match ($typeName) {
-            'null'                  => new TypeNull($name),
-            'void'                  => new TypeVoid($name),
-            'bool'                  => new TypeBool($name),
-            'string'                => new TypeString($name),
-            'int'                   => new TypeInteger($name),
-            'float'                 => new TypeFloat($name),
-            'array'                 => new TypeJson($name),
+            TypesEnum::NULL         => new TypeNull($name),
+            TypesEnum::VOID         => new TypeVoid($name),
+            TypesEnum::BOOL         => new TypeBool($name),
+            TypesEnum::STRING       => new TypeString($name),
+            TypesEnum::INTEGER      => new TypeInteger($name),
+            TypesEnum::FLOAT        => new TypeFloat($name),
+            TypesEnum::ARRAY        => new TypeJson($name),
             default                 => null,
         };
     }
@@ -539,13 +539,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     protected function toOpenApiFormat(): string
     {
         return match ($this->type) {
-            'number'                => 'int32',
-            'timestamp'             => 'timestamp',
-            'float'                 => 'float',
+            TypesEnum::INTEGER      => 'int32',
+            TypesEnum::TIMESTAMP    => 'timestamp',
+            TypesEnum::FLOAT        => 'float',
             
-            'date'                  => 'date',
-            'time'                  => 'time',
-            'uuid'                  => 'guid',
+            TypesEnum::DATE         => 'date',
+            TypesEnum::TIME         => 'time',
+            TypesEnum::UUID         => 'guid',
             
             default                 => ''
         };
