@@ -6,7 +6,7 @@ namespace IfCastle\TypeDefinitions;
 enum TypesEnum: string
 {
     case BOOL                       = 'bool';
-    case INTEGER                    = 'integer';
+    case INTEGER                    = 'int';
     case FLOAT                      = 'float';
     case STRING                     = 'string';
     case ARRAY                      = 'array';

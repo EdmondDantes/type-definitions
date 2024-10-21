@@ -13,6 +13,7 @@ use IfCastle\TypeDefinitions\TypeInteger;
 use IfCastle\TypeDefinitions\TypeJson;
 use IfCastle\TypeDefinitions\TypeObject;
 use IfCastle\TypeDefinitions\TypeOneOf;
+use IfCastle\TypeDefinitions\TypesEnum;
 use IfCastle\TypeDefinitions\TypeString;
 use IfCastle\TypeDefinitions\TypeVoid;
 use PHPUnit\Framework\TestCase;
@@ -41,23 +42,23 @@ class ReflectionTypeReaderTest      extends TestCase
             
             switch ($parameter->getType()->getName()) {
                 case 'int':
-                    $this->assertEquals('integer', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::INTEGER->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeInteger::class, $definition);
                     break;
                 case 'float':
-                    $this->assertEquals('float', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::FLOAT->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeFloat::class, $definition);
                     break;
                 case 'bool':
-                    $this->assertEquals('bool', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::BOOL->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeBool::class, $definition);
                     break;
                 case 'array':
-                    $this->assertEquals('array', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::ARRAY->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeJson::class, $definition);
                     break;
                 case 'string':
-                    $this->assertEquals('string', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::STRING->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeString::class, $definition);
                     break;
             }
@@ -91,23 +92,23 @@ class ReflectionTypeReaderTest      extends TestCase
             
             switch ($property->getType()->getName()) {
                 case 'int':
-                    $this->assertEquals('integer', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::INTEGER->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeInteger::class, $definition);
                     break;
                 case 'float':
-                    $this->assertEquals('float', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::FLOAT->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeFloat::class, $definition);
                     break;
                 case 'bool':
-                    $this->assertEquals('bool', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::BOOL->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeBool::class, $definition);
                     break;
                 case 'array':
-                    $this->assertEquals('array', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::ARRAY->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeJson::class, $definition);
                     break;
                 case 'string':
-                    $this->assertEquals('string', $definition->getTypeName());
+                    $this->assertEquals(TypesEnum::STRING->value, $definition->getTypeName());
                     $this->assertInstanceOf(TypeString::class, $definition);
                     break;
             }
@@ -153,8 +154,11 @@ class ReflectionTypeReaderTest      extends TestCase
         
         $this->assertNotNull($definition, 'Definition is null');
         $this->assertInstanceOf(TypeOneOf::class, $definition);
-        $this->assertEquals('oneOf', $definition->getTypeName());
-        $this->assertEquals(['string', 'integer', 'null'], array_map(fn(DefinitionInterface $type) => $type->getTypeName(), $definition->getCases()));
+        $this->assertEquals(TypesEnum::ONE_OF->value, $definition->getTypeName());
+        $this->assertEquals(
+            [TypesEnum::STRING->value, TypesEnum::INTEGER->value, TypesEnum::NULL->value],
+            array_map(fn(DefinitionInterface $type) => $type->getTypeName(), $definition->getCases())
+        );
     }
     
     public function testGenerateInterface(): void
