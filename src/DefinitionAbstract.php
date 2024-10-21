@@ -27,13 +27,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     public static function getDefinitionByNativeTypeName(string $typeName, string $name): ?DefinitionMutableInterface
     {
         return match ($typeName) {
-            TypesEnum::NULL         => new TypeNull($name),
-            TypesEnum::VOID         => new TypeVoid($name),
-            TypesEnum::BOOL         => new TypeBool($name),
-            TypesEnum::STRING       => new TypeString($name),
-            TypesEnum::INTEGER      => new TypeInteger($name),
-            TypesEnum::FLOAT        => new TypeFloat($name),
-            TypesEnum::ARRAY        => new TypeJson($name),
+            TypesEnum::NULL->value  => new TypeNull($name),
+            TypesEnum::VOID->value  => new TypeVoid($name),
+            TypesEnum::BOOL->value  => new TypeBool($name),
+            TypesEnum::STRING->value => new TypeString($name),
+            TypesEnum::INTEGER->value => new TypeInteger($name),
+            TypesEnum::FLOAT->value => new TypeFloat($name),
+            TypesEnum::ARRAY->value => new TypeJson($name),
             default                 => null,
         };
     }
@@ -539,15 +539,15 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     protected function toOpenApiFormat(): string
     {
         return match ($this->type) {
-            TypesEnum::INTEGER      => 'int32',
-            TypesEnum::TIMESTAMP    => 'timestamp',
-            TypesEnum::FLOAT        => 'float',
+            TypesEnum::INTEGER->value      => 'int32',
+            TypesEnum::TIMESTAMP->value    => 'timestamp',
+            TypesEnum::FLOAT->value        => 'float',
             
-            TypesEnum::DATE         => 'date',
-            TypesEnum::TIME         => 'time',
-            TypesEnum::UUID         => 'guid',
+            TypesEnum::DATE->value         => 'date',
+            TypesEnum::TIME->value         => 'time',
+            TypesEnum::UUID->value         => 'guid',
             
-            default                 => ''
+            default                         => ''
         };
     }
 
