@@ -19,6 +19,31 @@ use IfCastle\TypeDefinitions\TypeFunction;
 
 class ReflectionFunctionReader      implements FunctionReaderInterface
 {
+    /**
+     * Returns an array of attributes grouped by their name (or className).
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    public static function groupAttributesByName(array $attributes): array
+    {
+        $result                     = [];
+        
+        foreach ($attributes as $attribute) {
+            
+            $name                   = $attribute instanceof AttributeNameInterface ? $attribute->getAttributeName() : $attribute::class;
+            
+            if(array_key_exists($name, $result)) {
+                $result[$name][]    = $attribute;
+            } else {
+                $result[$name]      = [$attribute];
+            }
+        }
+        
+        return $result;
+    }
+    
     public function __construct(protected readonly ResolverInterface $resolver) {}
     
     public function extractFunctionDescriptor(string|\Closure|\ReflectionFunction $function): FunctionDescriptorInterface
@@ -114,6 +139,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         $methodDescriptor->describeReturnType($typeReader->generate());
         $methodDescriptor->describePossibleErrors(...$this->buildPossibleErrors($reflectedMethod));
         $methodDescriptor->setDescription($this->buildDocComment($reflectedMethod));
+        $methodDescriptor->setAttributes($typeContext->getAttributes());
         
         return $methodDescriptor->asImmutable();
     }
@@ -131,7 +157,7 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         
         $attributes                 = [];
         
-        foreach ($reflector->getAttributes(AttributeNameInterface::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+        foreach ($reflector->getAttributes() as $attribute) {
             $attributes[]           = $attribute->newInstance();
         }
 

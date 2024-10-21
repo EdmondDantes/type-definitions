@@ -57,6 +57,7 @@ class ReflectionFunctionReaderTest  extends TestCase
     {
         $class = new class {
             #[Error('Error message', 'This is an error')]
+            #[SomeAttribute]
             public function test(int $integer, float $float, bool $boolean, array $array, string $string): void {}
         };
         
@@ -108,5 +109,12 @@ class ReflectionFunctionReaderTest  extends TestCase
             $this->assertEquals('Error message', $possibleError->getName());
             $this->assertEquals('This is an error', $possibleError->getDescription());
         }
+        
+        $this->assertNotEmpty($definition->getAttributes(), 'Attributes is empty');
+        $this->assertCount(2, $definition->getAttributes(), 'Attributes count is not 1');
+        
+        $attribute = $definition->getAttributes()[1] ?? null;
+        
+        $this->assertInstanceOf(SomeAttribute::class, $attribute);
     }
 }

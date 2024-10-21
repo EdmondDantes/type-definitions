@@ -87,7 +87,7 @@ class ReflectionTransferObjectReader
         
         $attributes                 = [];
         
-        foreach ($reflector->getAttributes(AttributeNameInterface::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+        foreach ($reflector->getAttributes() as $attribute) {
             $attributes[]           = $attribute->newInstance();
         }
         
