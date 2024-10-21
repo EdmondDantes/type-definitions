@@ -2,7 +2,7 @@
 
 namespace IfCastle\TypeDefinitions;
 
-interface DefinitionMutableInterface        extends DefinitionInterface
+interface DefinitionMutableInterface        extends DefinitionInterface, AttributesMutableInterface
 {
     public function setName(string $name): static;
 
@@ -25,10 +25,6 @@ interface DefinitionMutableInterface        extends DefinitionInterface
     public function setDefaultValue(mixed $defaultValue): static;
     
     public function resetDefaultValue(): static;
-    
-    public function setAttributes(array $attributes): static;
-    
-    public function addAttributes(object ...$attributes): static;
     
     public function setResolver(callable $resolver): static;
 

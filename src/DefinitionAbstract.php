@@ -229,16 +229,16 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
     
     #[\Override]
-    public function getAttributes(string $instanceOf = null): array
+    public function getAttributes(string $name = null): array
     {
-        if($instanceOf === null) {
+        if($name === null) {
             return $this->attributes;
         }
         
         $attributes                 = [];
         
         foreach ($this->attributes as $attribute) {
-            if(is_subclass_of($attribute, $instanceOf)) {
+            if(is_subclass_of($attribute, $name)) {
                 $attributes[]       = $attribute;
             }
         }
@@ -247,10 +247,10 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
     
     #[\Override]
-    public function findAttribute(string $instanceOf): object|null
+    public function findAttribute(string $name): object|null
     {
         foreach ($this->attributes as $attribute) {
-            if(is_subclass_of($attribute, $instanceOf)) {
+            if(is_subclass_of($attribute, $name)) {
                 return $attribute;
             }
         }

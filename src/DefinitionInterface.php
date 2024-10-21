@@ -18,7 +18,7 @@ use IfCastle\TypeDefinitions\NativeSerialization\EncodeDecodeInterface;
  * * Used to describe API request/response specification.
  * * Knows how to encode and decode a data type from server to client and vice versa.
  */
-interface DefinitionInterface               extends TypeInterface, EncodeDecodeInterface, ArraySerializableInterface
+interface DefinitionInterface               extends TypeInterface, EncodeDecodeInterface, AttributesInterface, ArraySerializableInterface
 {
     /**
      * @return string
@@ -32,10 +32,6 @@ interface DefinitionInterface               extends TypeInterface, EncodeDecodeI
     public function isDefaultValueAvailable(): bool;
     
     public function getDefaultValue(): mixed;
-    
-    public function getAttributes(string $instanceOf = null): array;
-    
-    public function findAttribute(string $instanceOf): object|null;
     
     public function getResolver(): callable|null;
     
