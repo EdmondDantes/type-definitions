@@ -65,11 +65,15 @@ class TypeJson                      extends DefinitionAbstract
     #[\Override]
     public function encode(mixed $data): mixed
     {
+        if(is_array($data)) {
+            return $data;
+        }
+        
         if($data instanceof ValueJson) {
             return $data->getValue();
         }
         
-        throw new EncodingException($this, 'Only ValueJson values can be encoded');
+        throw new EncodingException($this, 'Only ValueJson values or array can be encoded');
     }
     
     /**
