@@ -525,13 +525,15 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     protected function toOpenApiType(): string
     {
         return match ($this->type) {
-            'null'                  => 'null',
-            'bool'                  => 'boolean',
-            'timestamp',
-            'number'                => 'integer',
-            'float'                 => 'number',
-            'object', 'key_list'    => 'object',
-            'array', 'list'         => 'array',
+            TypesEnum::NULL->value  => 'null',
+            TypesEnum::BOOL->value  => 'boolean',
+            TypesEnum::TIMESTAMP->value,
+            TypesEnum::INTEGER->value
+                                    => 'integer',
+            TypesEnum::FLOAT->value => 'number',
+            
+            TypesEnum::OBJECT->value, 'key_list'    => 'object',
+            TypesEnum::ARRAY->value, 'list'         => 'array',
             default                 => 'string'
         };
     }
