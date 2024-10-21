@@ -11,6 +11,8 @@ use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 abstract class DefinitionAbstract   implements DefinitionMutableInterface
 {
+    use AttributesMutableTrait;
+    
     public static function getDefinitionByNativeType(string $name, mixed $value): ?DefinitionMutableInterface
     {
         return match (true) {
@@ -229,36 +231,6 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
     
     #[\Override]
-    public function getAttributes(string $name = null): array
-    {
-        if($name === null) {
-            return $this->attributes;
-        }
-        
-        $attributes                 = [];
-        
-        foreach ($this->attributes as $attribute) {
-            if(is_subclass_of($attribute, $name)) {
-                $attributes[]       = $attribute;
-            }
-        }
-        
-        return $attributes;
-    }
-    
-    #[\Override]
-    public function findAttribute(string $name): object|null
-    {
-        foreach ($this->attributes as $attribute) {
-            if(is_subclass_of($attribute, $name)) {
-                return $attribute;
-            }
-        }
-        
-        return null;
-    }
-    
-    #[\Override]
     public function getResolver(): callable|null
     {
         return $this->resolver;
@@ -318,22 +290,6 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->throwIfImmutable();
         $this->isDefaultValueAvailable = false;
         $this->defaultValue           = null;
-        return $this;
-    }
-    
-    #[\Override]
-    public function setAttributes(array $attributes): static
-    {
-        $this->throwIfImmutable();
-        $this->attributes           = $attributes;
-        return $this;
-    }
-    
-    #[\Override]
-    public function addAttributes(object ...$attributes): static
-    {
-        $this->throwIfImmutable();
-        $this->attributes           = array_merge($this->attributes, $attributes);
         return $this;
     }
     
