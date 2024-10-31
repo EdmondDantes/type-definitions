@@ -14,7 +14,7 @@ use IfCastle\TypeDefinitions\TypeObject;
 
 class ValueObject extends ValueContainer implements ArraySerializableInterface, JsonSerializableInterface
 {
-    public function getObjectProperty(string $name)
+    public function getObjectProperty(string $name): mixed
     {
         return $this->value[$name] ?? null;
     }

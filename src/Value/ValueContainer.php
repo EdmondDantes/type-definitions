@@ -23,6 +23,7 @@ class ValueContainer implements ValueContainerInterface
     #[\Override]
     public static function instantiate(mixed $value, ?DefinitionInterface $definition = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new static($value, $definition);
     }
 

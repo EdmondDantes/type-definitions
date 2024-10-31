@@ -12,6 +12,9 @@ use IfCastle\TypeDefinitions\Value\ValueObject;
 
 class TypeObject extends DefinitionAbstract implements ObjectInterface
 {
+    /**
+     * @var DefinitionInterface[]
+     */
     protected array $properties     = [];
 
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)

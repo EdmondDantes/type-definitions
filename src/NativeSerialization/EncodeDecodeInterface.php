@@ -8,6 +8,10 @@ interface EncodeDecodeInterface
 {
     public function encode(mixed $data): mixed;
 
+    /**
+     * @param array<mixed>|int|float|string|bool $data
+     * @return mixed
+     */
     public function decode(array|int|float|string|bool $data): mixed;
 
     public function canDecodeFromString(): bool;

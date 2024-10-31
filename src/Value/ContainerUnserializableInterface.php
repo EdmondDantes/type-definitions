@@ -9,7 +9,10 @@ interface ContainerUnserializableInterface
     /**
      * @var string
      */
-    public const TYPE_NODE                 = '@';
+    public const string TYPE_NODE = '@';
 
-    public function containerUnserialize(array $data);
+    /**
+     * @var array<mixed> $data
+     */
+    public function containerUnserialize(array $data): mixed;
 }

@@ -50,6 +50,9 @@ final class PhpdocDescriptionParser
         return $description;
     }
 
+    /**
+     * @return array<string>
+     */
     protected static function extractNotations(string $doc): array
     {
         $matches                    = null;

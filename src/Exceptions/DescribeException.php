@@ -11,6 +11,11 @@ class DescribeException extends LoggableException
 {
     protected array $tags           = ['definition'];
 
+    /**
+     * @param string $message
+     * @param DefinitionMutableInterface $definition
+     * @param array<mixed> $exData
+     */
     public function __construct(string $message, DefinitionMutableInterface $definition, array $exData = [])
     {
         parent::__construct([

@@ -44,6 +44,7 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
 
     /**
      * @throws ParseException
+     * @return array<mixed>
      */
     public static function jsonToArray(mixed $value): array
     {
@@ -82,7 +83,7 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
     protected string $reference     = '';
 
     /**
-     * @var AttributeNameInterface[]
+     * @var object[]
      */
     protected array $attributes     = [];
 
@@ -362,13 +363,14 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
 
     abstract protected function validateValue(mixed $value): bool;
 
-    protected function getErrorMessageForValidate($value): string
+    protected function getErrorMessageForValidate(mixed $value): string
     {
         return \sprintf('Definition \'%s\' does not match type \'%s\'', $this->name, $this->type);
     }
 
     /**
      * @throws DecodingException
+     * @return array<mixed>
      */
     protected function jsonDecode(string $value): array
     {

@@ -35,5 +35,8 @@ interface DefinitionInterface extends TypeInterface, EncodeDecodeInterface, Attr
 
     public function validate(mixed $value, bool $isThrow = true): ?\Throwable;
 
+    /**
+     * @return array<mixed>
+     */
     public function toOpenApiSchema(?callable $definitionHandler = null): array;
 }

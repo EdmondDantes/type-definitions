@@ -33,6 +33,7 @@ readonly class FromEnv implements ArraySerializableInterface, AttributeNameInter
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new self(...$array);
     }
 

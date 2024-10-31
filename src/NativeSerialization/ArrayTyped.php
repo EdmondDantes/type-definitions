@@ -16,6 +16,7 @@ final class ArrayTyped
 
     /**
      * @throws LogicalException
+     * @return array<mixed>
      */
     public static function serialize(ArraySerializableInterface $object, ?ArraySerializableValidatorInterface $validator = null): array
     {
@@ -30,6 +31,7 @@ final class ArrayTyped
      * @param    ArraySerializableInterface[]             $objects
      *
      * @throws  LogicalException
+     * @return  array<mixed>
      */
     public static function serializeList(?ArraySerializableValidatorInterface $validator = null, ArraySerializableInterface ...$objects): array
     {
@@ -49,7 +51,7 @@ final class ArrayTyped
 
     /**
      *
-     * @return  mixed|null
+     * @return  array<mixed>|null
      * @throws  UnSerializeException
      */
     public static function unserialize(array|null $object, ?ArraySerializableValidatorInterface $validator = null): mixed
@@ -76,7 +78,7 @@ final class ArrayTyped
     }
 
     /**
-     * @param    array[]                                  $objects
+     * @param    array<mixed>       $objects
      *
      * @throws UnSerializeException
      */

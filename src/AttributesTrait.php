@@ -20,6 +20,7 @@ trait AttributesTrait
         $attributes                 = [];
 
         foreach ($this->attributes as $attribute) {
+            /* @phpstan-ignore-next-line */
             if (\is_subclass_of($attribute, $name) || ($attribute instanceof AttributeNameInterface && $attribute->getAttributeName() === $name)) {
                 $attributes[]       = $attribute;
             }

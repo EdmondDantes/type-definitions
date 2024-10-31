@@ -24,8 +24,7 @@ class ReflectionFunctionReader implements FunctionReaderInterface
 {
     /**
      * Returns an array of attributes grouped by their name (or className).
-     *
-     *
+     * @return array<string, array<AttributeNameInterface|object>>
      */
     public static function groupAttributesByName(array $attributes): array
     {

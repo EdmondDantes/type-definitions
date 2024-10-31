@@ -31,6 +31,7 @@ class ValueVoid implements ValueContainerInterface
     #[\Override]
     public static function instantiate(mixed $value, ?DefinitionInterface $definition = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new self();
     }
 
