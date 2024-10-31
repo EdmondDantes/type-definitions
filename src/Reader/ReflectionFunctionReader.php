@@ -8,8 +8,10 @@ use IfCastle\TypeDefinitions\DefinitionByErrorAbleInterface;
 use IfCastle\TypeDefinitions\DefinitionInterface;
 use IfCastle\TypeDefinitions\Error;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionBuilderException;
+use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
+use IfCastle\TypeDefinitions\PhpdocDescriptionParser;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 use IfCastle\TypeDefinitions\Resolver\TypeContext;
@@ -207,6 +209,11 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
         return $errors;
     }
     
+    /**
+     * @throws DefinitionBuilderException
+     * @throws \ReflectionException
+     * @throws DescribeException
+     */
     protected function buildErrorDescriptorByExceptionClass(string $errorClassName, Error $error): DefinitionInterface
     {
         if(false === is_subclass_of($errorClassName, \Throwable::class)) {
@@ -246,6 +253,10 @@ class ReflectionFunctionReader      implements FunctionReaderInterface
     {
         $docComment                 = $method->getDocComment();
         
-        return $docComment !== false ? $docComment : '';
+        if($docComment === false) {
+            return '';
+        }
+        
+        return implode("\n", PhpdocDescriptionParser::getDescription($docComment));
     }
 }
