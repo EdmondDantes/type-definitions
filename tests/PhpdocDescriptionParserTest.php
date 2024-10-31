@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace Examples;
+namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\PhpdocDescriptionParser;
 use PHPUnit\Framework\TestCase;
 
 class PhpdocDescriptionParserTest extends TestCase
