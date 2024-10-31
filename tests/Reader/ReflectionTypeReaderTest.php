@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Reader;
@@ -18,28 +19,28 @@ use IfCastle\TypeDefinitions\TypeString;
 use IfCastle\TypeDefinitions\TypeVoid;
 use PHPUnit\Framework\TestCase;
 
-class ReflectionTypeReaderTest      extends TestCase
+class ReflectionTypeReaderTest extends TestCase
 {
     public function testGenerateParameterNativeTypes(): void
     {
         $class                      = new class {
             public function test(int $integer, float $float, bool $boolean, array $array, string $string): void {}
         };
-    
+
         $reflectionMethod           = new \ReflectionMethod($class, 'test');
-        
+
         foreach ($reflectionMethod->getParameters() as $parameter) {
             $reflectionTypeReader   = new ReflectionTypeReader(
                 $parameter,
                 new TypeContext($class::class, $reflectionMethod->getName(), $parameter->getName(), isParameter: true),
-                new ExplicitTypeResolver
+                new ExplicitTypeResolver()
             );
 
             $definition             = $reflectionTypeReader->generate();
-            
+
             $this->assertNotNull($definition, 'Definition is null');
             $this->assertEquals($parameter->getName(), $definition->getName());
-            
+
             switch ($parameter->getType()->getName()) {
                 case 'int':
                     $this->assertEquals(TypesEnum::INTEGER->value, $definition->getTypeName());
@@ -64,32 +65,31 @@ class ReflectionTypeReaderTest      extends TestCase
             }
         }
     }
-    
+
     public function testGeneratePropertyNativeTypes(): void
     {
         $class                      = new class {
-            
             protected int $integer;
             protected float $float;
             protected bool $boolean;
             protected array $array;
             protected string $string;
         };
-        
+
         $reflectionClass           = new \ReflectionClass($class);
-        
+
         foreach ($reflectionClass->getProperties() as $property) {
             $reflectionTypeReader   = new ReflectionTypeReader(
                 $property,
                 new TypeContext($class::class, $reflectionClass->getName(), propertyName: $property->getName(), isProperty: true),
-                new ExplicitTypeResolver
+                new ExplicitTypeResolver()
             );
-            
+
             $definition             = $reflectionTypeReader->generate();
-            
+
             $this->assertNotNull($definition, 'Definition is null');
             $this->assertEquals($property->getName(), $definition->getName());
-            
+
             switch ($property->getType()->getName()) {
                 case 'int':
                     $this->assertEquals(TypesEnum::INTEGER->value, $definition->getTypeName());
@@ -114,89 +114,89 @@ class ReflectionTypeReaderTest      extends TestCase
             }
         }
     }
-    
+
     public function testGenerateVoid(): void
     {
         $class                      = new class {
             public function test(): void {}
         };
-        
+
         $reflectionMethod           = new \ReflectionMethod($class, 'test');
-        
+
         $reflectionTypeReader       = new ReflectionTypeReader(
             $reflectionMethod->getReturnType(),
             new TypeContext($class::class, $reflectionMethod->getName(), isReturnType: true),
-            new ExplicitTypeResolver
+            new ExplicitTypeResolver()
         );
-        
+
         $definition                 = $reflectionTypeReader->generate();
-        
+
         $this->assertNotNull($definition, 'Definition is null');
         $this->assertEquals('void', $definition->getTypeName());
         $this->assertInstanceOf(TypeVoid::class, $definition);
     }
-    
+
     public function testGenerateUnionType(): void
     {
         $class                      = new class {
             public function test(int|string|null $value): void {}
         };
-        
+
         $reflectionMethod           = new \ReflectionMethod($class, 'test');
-        
+
         $reflectionTypeReader       = new ReflectionTypeReader(
             $reflectionMethod->getParameters()[0],
             new TypeContext($class::class, $reflectionMethod->getName(), $reflectionMethod->getParameters()[0]->getName(), isParameter: true),
-            new ExplicitTypeResolver
+            new ExplicitTypeResolver()
         );
-        
+
         $definition                 = $reflectionTypeReader->generate();
-        
+
         $this->assertNotNull($definition, 'Definition is null');
         $this->assertInstanceOf(TypeOneOf::class, $definition);
         $this->assertEquals(TypesEnum::ONE_OF->value, $definition->getTypeName());
         $this->assertEquals(
             [TypesEnum::STRING->value, TypesEnum::INTEGER->value, TypesEnum::NULL->value],
-            array_map(fn(DefinitionInterface $type) => $type->getTypeName(), $definition->getCases())
+            \array_map(fn(DefinitionInterface $type) => $type->getTypeName(), $definition->getCases())
         );
     }
-    
+
     public function testGenerateInterface(): void
     {
         $class                      = new class {
             public function test(AInterface $value): void {}
         };
-        
+
         $reflectionMethod           = new \ReflectionMethod($class, 'test');
-        
+
         $reflectionTypeReader       = new ReflectionTypeReader(
             $reflectionMethod->getParameters()[0],
             new TypeContext($class::class, $reflectionMethod->getName(), $reflectionMethod->getParameters()[0]->getName(), isParameter: true),
-            new ExplicitTypeResolver
+            new ExplicitTypeResolver()
         );
-        
+
         $definition                 = $reflectionTypeReader->generate();
-        
+
         $this->assertNotNull($definition, 'Definition is null');
         $this->assertInstanceOf(TypeObject::class, $definition);
     }
-    
+
     public function testGenerateIntersectionType(): void
     {
         $class                      = new class {
             public function test(AInterface & BInterface $value): void {}
         };
-        
+
         $reflectionMethod           = new \ReflectionMethod($class, 'test');
-        
+
         $reflectionTypeReader       = new ReflectionTypeReader(
             $reflectionMethod->getParameters()[0],
             new TypeContext($class::class, $reflectionMethod->getName(), $reflectionMethod->getParameters()[0]->getName(), isParameter: true),
-            new ExplicitTypeResolver
+            new ExplicitTypeResolver()
         );
-        
+
         $definition                 = $reflectionTypeReader->generate();
-        
+
         $this->assertNotNull($definition, 'Definition is null');
         $this->assertInstanceOf(TypeAllOf::class, $definition);
         $this->assertEquals('allOf', $definition->getTypeName());

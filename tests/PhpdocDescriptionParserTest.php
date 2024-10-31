@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
@@ -15,10 +16,10 @@ class PhpdocDescriptionParserTest extends TestCase
              *
              * @return string[]
              */');
-        
+
         $this->assertEquals(['Returns a list of interfaces that are used for binding this service.'], $result);
     }
-    
+
     public function testParseMultipleLines(): void
     {
         $result                     = PhpdocDescriptionParser::getDescription('
@@ -33,10 +34,10 @@ class PhpdocDescriptionParserTest extends TestCase
              * @throws \Exception
              * @return string[]
              */');
-        
+
         $this->assertEquals(['The method returns a list of Tags in which the service is visible.', 'And this is the second line.'], $result);
     }
-    
+
     public function testParseSpecialTags(): void
     {
         $result                     = PhpdocDescriptionParser::getDescription('
@@ -46,7 +47,7 @@ class PhpdocDescriptionParserTest extends TestCase
              * @deprecated
              * @link http://example.com
              */');
-        
+
         $this->assertEquals(['The method with special tags.', 'access: public', 'deprecated', 'link: http://example.com'], $result);
     }
 }

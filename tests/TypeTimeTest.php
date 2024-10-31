@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use PHPUnit\Framework\TestCase;
 use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\EncodingException;
 use IfCastle\TypeDefinitions\Value\ValueTime;
+use PHPUnit\Framework\TestCase;
 
 class TypeTimeTest extends TestCase
 {
@@ -19,7 +20,7 @@ class TypeTimeTest extends TestCase
         $this->assertTrue($typeTime->validate('12:34:56.789123', false) === null, 'Microseconds are optional');
         $this->assertTrue($typeTime->validate('12:34:56.789123+02:00', false) === null, 'Timezone is optional');
     }
-    
+
     public function testValidateValueWithInvalidTime(): void
     {
         $typeTime = new TypeTime('test');
@@ -29,21 +30,21 @@ class TypeTimeTest extends TestCase
         $this->assertFalse($typeTime->validate('12:34:60', false) === null);
         $this->assertFalse($typeTime->validate('12:34:56.1000000', false) === null);
     }
-    
+
     public function testEncodeWithValueTime(): void
     {
         $typeTime = new TypeTime('test');
         $valueTime = new ValueTime(12, 34, 56, 789123, 7200);
         $this->assertEquals('12:34:56.789123+02:00', $typeTime->encode($valueTime));
     }
-    
+
     public function testEncodeWithInvalidValue(): void
     {
         $this->expectException(EncodingException::class);
         $typeTime = new TypeTime('test');
         $typeTime->encode('invalid-time');
     }
-    
+
     public function testDecodeWithValidString(): void
     {
         $typeTime = new TypeTime('test');
@@ -55,7 +56,7 @@ class TypeTimeTest extends TestCase
         $this->assertEquals(789123, $valueTime->getMicrosecond());
         $this->assertEquals(7200, $valueTime->getTimezoneOffset());
     }
-    
+
     public function testDecodeWithInvalidString(): void
     {
         $this->expectException(DecodingException::class);

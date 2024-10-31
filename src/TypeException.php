@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
 /**
- * Class TypeException
+ * Class TypeException.
  *
  * @package IfCastle\TypeDefinitions
  */
-class TypeException                 extends TypeObject
+class TypeException extends TypeObject
 {
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
@@ -17,9 +18,9 @@ class TypeException                 extends TypeObject
             $isRequired,
             $isNullable
         );
-        
+
         $this->type                     = 'exception';
-        
+
         $this->describe((new TypeString('message'))->setDescription('The error message.'))
                 ->describe((new TypeString('code'))->setDescription('The error code.'))
                 ->describe((new TypeString('file'))->setDescription('The file in which the error occurred.'))

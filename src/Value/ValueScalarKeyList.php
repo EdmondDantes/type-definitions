@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Value;
@@ -8,7 +9,7 @@ use IfCastle\TypeDefinitions\DefinitionMutableInterface;
 use IfCastle\TypeDefinitions\TypeKeyList;
 use IfCastle\TypeDefinitions\TypeScalar;
 
-class ValueScalarKeyList            extends ValueContainer
+class ValueScalarKeyList extends ValueContainer
 {
     #[\Override]
     public static function definition(): DefinitionMutableInterface

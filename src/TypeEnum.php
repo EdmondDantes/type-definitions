@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-class TypeEnum                      extends DefinitionAbstract
+class TypeEnum extends DefinitionAbstract
 {
     #[\Override]
     protected function validateValue(mixed $value): bool

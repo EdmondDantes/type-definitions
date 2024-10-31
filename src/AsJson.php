@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
@@ -10,6 +11,6 @@ readonly class AsJson extends Type
 {
     public function __construct()
     {
-        parent::__construct((new TypeJson)->decodeAsNative());
+        parent::__construct((new TypeJson())->decodeAsNative());
     }
 }

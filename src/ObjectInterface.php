@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
@@ -6,6 +7,6 @@ namespace IfCastle\TypeDefinitions;
 interface ObjectInterface extends DefinitionInterface
 {
     public function getProperties(): array;
-    
+
     public function getInstantiableClass(): string;
 }

@@ -1,38 +1,39 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Reader\Exceptions;
 
 use IfCastle\TypeDefinitions\Resolver\TypeContextInterface;
 
-class TypeUndefined                 extends ReaderException
+class TypeUndefined extends ReaderException
 {
     protected string $template      = 'Type {source} is not defined. Mixed types cannot be used in type definitions.';
-    
-    public function __construct(string $source = '', TypeContextInterface $typeContext = null)
+
+    public function __construct(string $source = '', ?TypeContextInterface $typeContext = null)
     {
-        if($typeContext instanceof TypeContextInterface) {
+        if ($typeContext instanceof TypeContextInterface) {
             $sourceString           = match (true) {
                 $typeContext->isReturnType()     => 'returnType',
                 $typeContext->isProperty()       => 'property',
                 $typeContext->isParameter()      => 'parameter'
             };
-            
-            if($source !== '') {
-                $sourceString       = ' "' . $source.'" ';
+
+            if ($source !== '') {
+                $sourceString       = ' "' . $source . '" ';
             }
-            
-            if($typeContext->getClassName() !== null) {
-                $sourceString       = ' of class ' . $typeContext->getClassName().' method ';
+
+            if ($typeContext->getClassName() !== null) {
+                $sourceString       = ' of class ' . $typeContext->getClassName() . ' method ';
             }
-            
-            if($typeContext->getFunctionName() !== null) {
+
+            if ($typeContext->getFunctionName() !== null) {
                 $sourceString       = $typeContext->getFunctionName();
             }
-            
+
             $source                 = $sourceString;
         }
-        
+
         parent::__construct(['source' => $source]);
     }
 }

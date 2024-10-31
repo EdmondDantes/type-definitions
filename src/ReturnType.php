@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
@@ -10,26 +11,24 @@ use IfCastle\TypeDefinitions\NativeSerialization\ArrayTyped;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 /**
- * Allows you to specify the return type for functions
+ * Allows you to specify the return type for functions.
  */
 #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION)]
-readonly class ReturnType           implements AttributeNameInterface, ArraySerializableInterface
+readonly class ReturnType implements AttributeNameInterface, ArraySerializableInterface
 {
     /**
-     * Return type specifier
+     * Return type specifier.
      */
-    public function __construct(public DefinitionInterface $definition)
-    {
-    }
+    public function __construct(public DefinitionInterface $definition) {}
 
     #[\Override]
-    public function toArray(ArraySerializableValidatorInterface $validator = null): array
+    public function toArray(?ArraySerializableValidatorInterface $validator = null): array
     {
         return [ArrayTyped::serialize($this->definition, $validator)];
     }
 
     #[\Override]
-    public static function fromArray(array $array, ArraySerializableValidatorInterface $validator = null): static
+    public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
         return new self(ArrayTyped::unserialize($array, $validator));
     }

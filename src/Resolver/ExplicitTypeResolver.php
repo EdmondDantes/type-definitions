@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions\Resolver;
@@ -8,7 +9,7 @@ use IfCastle\TypeDefinitions\DefinitionStaticAwareInterface;
 use IfCastle\TypeDefinitions\Type;
 
 /**
- * ## ExplicitTypeResolver
+ * ## ExplicitTypeResolver.
  *
  * Extracts the type descriptor only if it is explicitly defined:
  *
@@ -16,7 +17,7 @@ use IfCastle\TypeDefinitions\Type;
  * * If it is a class, the `DefinitionStaticAwareInterface` is implemented.
  *
  */
-class ExplicitTypeResolver          implements ResolverInterface
+class ExplicitTypeResolver implements ResolverInterface
 {
     /**
      * @throws \ReflectionException
@@ -24,23 +25,23 @@ class ExplicitTypeResolver          implements ResolverInterface
     public function resolveType(string $typeName, TypeContextInterface $typeContext): DefinitionMutableInterface|null
     {
         $type                       = $typeContext->getAttribute(Type::class);
-        
-        if($type instanceof Type) {
+
+        if ($type instanceof Type) {
             return $type->definition;
         }
-        
-        if(false === interface_exists($typeName) && is_subclass_of($typeName, DefinitionStaticAwareInterface::class)) {
+
+        if (false === \interface_exists($typeName) && \is_subclass_of($typeName, DefinitionStaticAwareInterface::class)) {
             return $typeName::definition();
         }
-        
+
         // Try to find the Type attribute in the class
         $reflection             = new \ReflectionClass($typeName);
         $attributes             = $reflection->getAttributes(Type::class);
-        
-        if(count($attributes) > 0) {
+
+        if (\count($attributes) > 0) {
             return $attributes[0]->newInstance()->definition;
         }
-        
+
         return null;
     }
 }

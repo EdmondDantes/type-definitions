@@ -1,27 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
-use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
 use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Exceptions\ParseException;
+use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
-abstract class DefinitionAbstract   implements DefinitionMutableInterface
+abstract class DefinitionAbstract implements DefinitionMutableInterface
 {
     use AttributesMutableTrait;
-    
+
     public static function getDefinitionByNativeType(string $name, mixed $value): ?DefinitionMutableInterface
     {
         return match (true) {
             $value === null         => new TypeNull($name),
-            is_bool($value)         => new TypeBool($name),
-            is_string($value)       => new TypeString($name),
-            is_int($value)          => new TypeInteger($name),
-            is_float($value)        => new TypeFloat($name),
-            is_array($value)        => new TypeJson($name),
+            \is_bool($value)         => new TypeBool($name),
+            \is_string($value)       => new TypeString($name),
+            \is_int($value)          => new TypeInteger($name),
+            \is_float($value)        => new TypeFloat($name),
+            \is_array($value)        => new TypeJson($name),
             default                 => null,
         };
     }
@@ -39,74 +41,72 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
             default                 => null,
         };
     }
-    
+
     /**
      * @throws ParseException
      */
     public static function jsonToArray(mixed $value): array
     {
         try {
-            if(is_string($value)) {
-                $value              = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+            if (\is_string($value)) {
+                $value              = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             }
         } catch (\JsonException $jsonException) {
             throw new ParseException('Value must be a valid JSON string', 0, $jsonException);
         }
 
-        if(!is_array($value)) {
+        if (!\is_array($value)) {
             throw new ParseException([
                 'template'          => 'Value must be an array, got {type} instead.',
-                'type'              => get_debug_type($value),
+                'type'              => \get_debug_type($value),
             ]);
         }
 
         return $value;
     }
-    
+
     protected ?string $encodeKey    = null;
-    
+
     protected bool $isEmptyToNull   = false;
-    
+
     protected string $description   = '';
 
     /**
-     * The name of the class that can instantiate an object from the raw-data
+     * The name of the class that can instantiate an object from the raw-data.
      */
     protected string $instantiableClass = '';
-    
+
     /**
-     * Used for OpenAPI reference
+     * Used for OpenAPI reference.
      */
     protected string $reference     = '';
-    
+
     /**
      * @var AttributeNameInterface[]
      */
     protected array $attributes     = [];
-    
+
     protected bool $isDefaultValueAvailable = false;
-    
+
     protected mixed $defaultValue   = null;
-    
+
     protected mixed $resolver       = null;
-    
+
     private bool $isImmutable       = false;
 
-    public function __construct(protected string $name, protected string $type, protected bool $isRequired = true, protected bool $isNullable = false)
-    {
-    }
-    
+    public function __construct(protected string $name, protected string $type, protected bool $isRequired = true, protected bool $isNullable = false) {}
+
     public function __clone(): void
     {
         $this->isImmutable          = false;
     }
-    
+
     #[\Override]
     public function getName(): string
     {
         return $this->name;
     }
-    
+
     #[\Override]
     public function setName(string $name): static
     {
@@ -122,7 +122,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
 
     #[\Override]
-    public function setEncodeKey(string $encodeKey = null): static
+    public function setEncodeKey(?string $encodeKey = null): static
     {
         $this->throwIfImmutable();
         $this->encodeKey            = $encodeKey;
@@ -134,7 +134,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         return $this->type;
     }
-    
+
     #[\Override]
     public function isRequired(): bool
     {
@@ -153,13 +153,13 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->isRequired           = $isRequired;
         return $this;
     }
-    
+
     #[\Override]
     public function isNullable(): bool
     {
         return $this->isNullable;
     }
-    
+
     /**
      * @return $this
      */
@@ -168,7 +168,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         $this->throwIfImmutable();
         $this->isNullable           = $isNullable;
-        
+
         return $this;
     }
 
@@ -177,19 +177,19 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         return $this->description;
     }
-    
+
     #[\Override]
     public function isDefaultValueAvailable(): bool
     {
         return $this->isDefaultValueAvailable;
     }
-    
+
     #[\Override]
     public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
-    
+
     /**
      *
      * @return $this
@@ -200,16 +200,16 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         $this->throwIfImmutable();
         $this->description          = $description;
-        
+
         return $this;
     }
-    
+
     #[\Override]
     public function convertEmptyToNull(): bool
     {
         return $this->isEmptyToNull;
     }
-    
+
     /**
      *
      * @return $this
@@ -220,22 +220,22 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         $this->throwIfImmutable();
         $this->isEmptyToNull        = $isEmptyToNull;
-        
+
         return $this;
     }
-    
+
     #[\Override]
     public function getReference(): string
     {
         return $this->reference;
     }
-    
+
     #[\Override]
     public function getResolver(): callable|null
     {
         return $this->resolver;
     }
-    
+
     /**
      * @throws DescribeException
      */
@@ -244,10 +244,10 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     {
         $this->throwIfImmutable();
         $this->reference            = $reference;
-        
+
         return $this;
     }
-    
+
     /**
      * @throws DescribeException
      */
@@ -255,15 +255,15 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     public function asReference(): static
     {
         $this->throwIfImmutable();
-        return $this->setReference('#/components/schemas/'.$this->getName());
+        return $this->setReference('#/components/schemas/' . $this->getName());
     }
-    
+
     #[\Override]
     public function isEmptyToNull(): bool
     {
         return $this->isEmptyToNull;
     }
-    
+
     /**
      * @throws DescribeException
      */
@@ -274,7 +274,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->isEmptyToNull        = $isEmptyToNull;
         return $this;
     }
-    
+
     #[\Override]
     public function setDefaultValue(mixed $defaultValue): static
     {
@@ -283,7 +283,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->defaultValue           = $defaultValue;
         return $this;
     }
-    
+
     #[\Override]
     public function resetDefaultValue(): static
     {
@@ -292,7 +292,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->defaultValue           = null;
         return $this;
     }
-    
+
     #[\Override]
     public function setResolver(callable $resolver): static
     {
@@ -300,12 +300,12 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
         $this->resolver             = $resolver;
         return $this;
     }
-    
+
     public function getInstantiableClass(): string
     {
         return $this->instantiableClass;
     }
-    
+
     /**
      * @throws DescribeException
      */
@@ -317,43 +317,39 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
 
     /**
-     * Method that validates the parameter
+     * Method that validates the parameter.
      *
-     * @param    mixed    $value
-     * @param    bool     $isThrow
      *
-     * @return \Throwable|null
      * @throws DefinitionIsNotValid
      */
     #[\Override]
     public function validate(mixed $value, bool $isThrow = true): ?\Throwable
     {
         $error                      = null;
-        
-        if(($this->isNullable || !$this->isRequired) && $value === null) {
+
+        if (($this->isNullable || !$this->isRequired) && $value === null) {
             return null;
         }
-        
+
         // Convert empty string as NULL
-        if($this->isEmptyToNull && $value === '')
-        {
+        if ($this->isEmptyToNull && $value === '') {
             $value                  = null;
         }
-        
+
         if ($this->isRequired && !$this->isNullable && $value === null) {
-            $error                  = new DefinitionIsNotValid($this, sprintf('Definition \'%s\' cannot be NULL', $this->name));
+            $error                  = new DefinitionIsNotValid($this, \sprintf('Definition \'%s\' cannot be NULL', $this->name));
         } elseif ($value !== null && false === $this->validateValue($value)) {
             $error                  = new DefinitionIsNotValid($this, $this->getErrorMessageForValidate($value));
         }
-        
-        if($error === null) {
+
+        if ($error === null) {
             return null;
         }
-        
-        if($isThrow) {
+
+        if ($isThrow) {
             throw $error;
         }
-        
+
         return $error;
     }
 
@@ -365,40 +361,40 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
     }
 
     abstract protected function validateValue(mixed $value): bool;
-    
+
     protected function getErrorMessageForValidate($value): string
     {
-        return sprintf('Definition \'%s\' does not match type \'%s\'', $this->name, $this->type);
+        return \sprintf('Definition \'%s\' does not match type \'%s\'', $this->name, $this->type);
     }
-    
+
     /**
      * @throws DecodingException
      */
     protected function jsonDecode(string $value): array
     {
-        $result                     = json_decode($value, true);
-        
-        if(!is_array($result)) {
-            throw new DecodingException($this, 'value is not a json: ' . json_last_error_msg(), ['value' => $value]);
+        $result                     = \json_decode($value, true);
+
+        if (!\is_array($result)) {
+            throw new DecodingException($this, 'value is not a json: ' . \json_last_error_msg(), ['value' => $value]);
         }
-        
+
         return $result;
     }
-    
+
     #[\Override]
     public function canDecodeFromString(): bool
     {
         return false;
     }
-    
+
     #[\Override]
     public function canDecodeFromArray(): bool
     {
         return false;
     }
-    
+
     #[\Override]
-    public function toArray(ArraySerializableValidatorInterface $validator = null): array
+    public function toArray(?ArraySerializableValidatorInterface $validator = null): array
     {
         return
         [
@@ -406,23 +402,23 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
             'type'                  => $this->type,
             'is_required'           => $this->isRequired,
             'is_nullable'           => $this->isNullable,
-            'description'           => $this->description
+            'description'           => $this->description,
         ];
     }
 
     #[\Override]
-    public static function fromArray(array $array, ArraySerializableValidatorInterface $validator = null): static
+    public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
         // TODO fromArray
     }
 
     #[\Override]
-    public function toOpenApiSchema(callable $definitionHandler = null): array
+    public function toOpenApiSchema(?callable $definitionHandler = null): array
     {
-        if($this->reference !== '' && $definitionHandler !== null) {
-            
+        if ($this->reference !== '' && $definitionHandler !== null) {
+
             $definitionHandler($this);
-            
+
             return [
                 '$ref'              => $this->reference,
             ];
@@ -430,54 +426,54 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
 
         return $this->buildOpenApiSchema($definitionHandler);
     }
-    
-    protected function buildOpenApiSchema(callable $definitionHandler = null): array
+
+    protected function buildOpenApiSchema(?callable $definitionHandler = null): array
     {
         $array                      = [];
-    
-        if($this->name !== '' && $this->name !== '0') {
+
+        if ($this->name !== '' && $this->name !== '0') {
             $array['title']         = $this->name;
         }
-    
+
         $array['type']              = $this->toOpenApiType();
         $array['format']            = $this->toOpenApiFormat();
-    
-        if(empty($array['format'])) {
+
+        if (empty($array['format'])) {
             unset($array['format']);
         }
-    
-        if($this->isNullable) {
+
+        if ($this->isNullable) {
             $array['nullable']      = true;
         }
 
-        if($this instanceof NumberInterface) {
-            if($this->getMinimum() !== null) {
+        if ($this instanceof NumberInterface) {
+            if ($this->getMinimum() !== null) {
                 $array['minimum']   = $this->getMinimum();
             }
-            
-            if($this->getMaximum() !== null) {
+
+            if ($this->getMaximum() !== null) {
                 $array['maximum']   = $this->getMaximum();
             }
         }
 
-        if($this instanceof StringableInterface) {
-            
-            if($this->getMinLength() !== null) {
+        if ($this instanceof StringableInterface) {
+
+            if ($this->getMinLength() !== null) {
                 $array['minLength'] = $this->getMinLength();
             }
-            
-            if($this->getMaxLength() !== null) {
+
+            if ($this->getMaxLength() !== null) {
                 $array['maxLength'] = $this->getMaxLength();
             }
-            
-            if($this->getEcmaPattern() !== null) {
+
+            if ($this->getEcmaPattern() !== null) {
                 $array['pattern']   = $this->getEcmaPattern();
             }
         }
-        
+
         return $array;
     }
-    
+
     protected function toOpenApiType(): string
     {
         return match ($this->type) {
@@ -487,24 +483,24 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
             TypesEnum::INTEGER->value
                                     => 'integer',
             TypesEnum::FLOAT->value => 'number',
-            
+
             TypesEnum::OBJECT->value, 'key_list'    => 'object',
             TypesEnum::ARRAY->value, 'list'         => 'array',
             default                 => 'string'
         };
     }
-    
+
     protected function toOpenApiFormat(): string
     {
         return match ($this->type) {
             TypesEnum::INTEGER->value      => 'int32',
             TypesEnum::TIMESTAMP->value    => 'timestamp',
             TypesEnum::FLOAT->value        => 'float',
-            
+
             TypesEnum::DATE->value         => 'date',
             TypesEnum::TIME->value         => 'time',
             TypesEnum::UUID->value         => 'guid',
-            
+
             default                         => ''
         };
     }
@@ -514,7 +510,7 @@ abstract class DefinitionAbstract   implements DefinitionMutableInterface
      */
     protected function throwIfImmutable(): void
     {
-        if($this->isImmutable) {
+        if ($this->isImmutable) {
             throw new DescribeException('definition is immutable', $this);
         }
     }

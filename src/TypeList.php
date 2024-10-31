@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
@@ -9,7 +11,7 @@ use IfCastle\TypeDefinitions\Exceptions\DefinitionTypeInvalid;
  * List of same class types.
  * Array - list of diff types.
  */
-class TypeList                      extends DefinitionAbstract
+class TypeList extends DefinitionAbstract
 {
     protected bool $decodeAsNative   = false;
 
@@ -19,7 +21,7 @@ class TypeList                      extends DefinitionAbstract
     }
 
     /**
-     * Point to decode the array as a native array instead of a ValueJsonArray
+     * Point to decode the array as a native array instead of a ValueJsonArray.
      *
      * @return $this
      */
@@ -41,27 +43,27 @@ class TypeList                      extends DefinitionAbstract
      */
     protected function validateKey(mixed $key): void
     {
-        if(!is_int($key)) {
+        if (!\is_int($key)) {
             throw new DefinitionIsNotValid($this, 'List key should be number');
         }
     }
-    
+
     #[\Override]
     protected function validateValue(mixed $value): bool
     {
-        if(!is_array($value)) {
+        if (!\is_array($value)) {
             return false;
         }
-        
+
         foreach ($value as $key => $item) {
-            
+
             $this->validateKey($key);
-            
-            if($this->itemDefinition->validate($item, false) !== null) {
+
+            if ($this->itemDefinition->validate($item, false) !== null) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -71,34 +73,34 @@ class TypeList                      extends DefinitionAbstract
     #[\Override]
     public function decode(array|int|float|string|bool $data): mixed
     {
-        if(is_string($data)) {
+        if (\is_string($data)) {
             $data              = $this->jsonDecode($data);
         }
-        
-        if(!is_array($data)) {
+
+        if (!\is_array($data)) {
             throw new DefinitionTypeInvalid($this);
         }
-    
+
         $decoded                = [];
-        
+
         foreach ($data as $key => $item) {
             $decoded[$key]      = $this->itemDefinition->decode($item);
         }
-        
+
         return $decoded;
     }
-    
+
     #[\Override]
     public function encode(mixed $data): mixed
     {
         return $data;
     }
-    
+
     #[\Override]
-    protected function buildOpenApiSchema(callable $definitionHandler = null): array
+    protected function buildOpenApiSchema(?callable $definitionHandler = null): array
     {
         return parent::buildOpenApiSchema($definitionHandler) + [
-            'items' => $this->itemDefinition->toOpenApiSchema($definitionHandler)
+            'items' => $this->itemDefinition->toOpenApiSchema($definitionHandler),
         ];
     }
 }

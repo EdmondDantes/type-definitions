@@ -1,18 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
 use IfCastle\Exceptions\UnexpectedMethodMode;
 
-final class TypeInternal            extends DefinitionAbstract
+final class TypeInternal extends DefinitionAbstract
 {
     #[\Override]
     protected function validateValue(mixed $value): bool
     {
         return $value instanceof $this->type;
     }
-    
+
     #[\Override]
     public function isScalar(): bool
     {
@@ -27,7 +28,7 @@ final class TypeInternal            extends DefinitionAbstract
     {
         throw new UnexpectedMethodMode(__METHOD__);
     }
-    
+
     /**
      * @throws UnexpectedMethodMode
      */

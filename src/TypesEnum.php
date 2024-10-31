@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
@@ -12,11 +13,11 @@ enum TypesEnum: string
     case ARRAY                      = 'array';
     case OBJECT                     = 'object';
     case BINARY                     = 'binary';
-    
+
     case NULL                       = 'null';
     case MIXED                      = 'mixed';
     case VOID                       = 'void';
-    
+
     case ENUM                       = 'enum';
     case DATE                       = 'date';
     case DATETIME                   = 'datetime';
@@ -24,10 +25,10 @@ enum TypesEnum: string
     case TIMESTAMP                  = 'timestamp';
     case YEAR                       = 'year';
     case YEAR_MONTH                 = 'yearMonth';
-    
+
     case UUID                       = 'uuid';
     case ULID                       = 'ulid';
-    
+
     case OPTIONS                    = 'options';
     case KEY_LIST                   = 'keyList';
     case LIST                       = 'list';
