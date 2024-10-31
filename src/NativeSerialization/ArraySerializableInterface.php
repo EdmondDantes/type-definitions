@@ -8,12 +8,12 @@ interface ArraySerializableInterface
 {
     /**
      * @param ArraySerializableValidatorInterface|null $validator
-     * @return array<string, mixed>
+     * @return array<mixed>
      */
     public function toArray(?ArraySerializableValidatorInterface $validator = null): array;
 
     /**
-     * @param array<string, mixed> $array
+     * @param array<mixed> $array
      * @param ArraySerializableValidatorInterface|null $validator
      * @return static
      */

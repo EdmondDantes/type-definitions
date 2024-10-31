@@ -78,7 +78,7 @@ final class ArrayTyped
     }
 
     /**
-     * @param    array<mixed>       $objects
+     * @param    array<mixed>|null       $objects
      *
      * @throws UnSerializeException
      */

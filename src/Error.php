@@ -45,10 +45,11 @@ readonly class Error implements ArraySerializableInterface
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new self(
             $array[self::TEMPLATE] ?? '',
             $array[self::DESCRIPTION] ?? '',
-            ...ArrayTyped::unserializeList($validator, ...($array[self::PARAMETERS] ?? [])),
+            ...ArrayTyped::unserializeList($validator, ...($array[self::PARAMETERS] ?? [])) ?? [],
         );
     }
 }

@@ -51,7 +51,7 @@ final class PhpdocDescriptionParser
     }
 
     /**
-     * @return array<string>
+     * @return array[array{description: string, tag: array<string, string>, value: string, multiline_value: string}]
      */
     protected static function extractNotations(string $doc): array
     {

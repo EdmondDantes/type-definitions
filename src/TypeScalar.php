@@ -48,7 +48,13 @@ class TypeScalar extends TypeOneOf implements StringableInterface
     {
         return null;
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {

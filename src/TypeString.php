@@ -80,7 +80,13 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
     {
         return $this->pattern;
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->pattern;
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {

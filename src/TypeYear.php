@@ -16,12 +16,18 @@ class TypeYear extends TypeInteger
     #[\Override]
     public function getPattern(): string|null
     {
-        return '-?\d{4}';
+        return '\d{4}';
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {
-        return '-?\\d{4}';
+        return '\\d{4}';
     }
 }

@@ -411,6 +411,7 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
+        /* @phpstan-ignore-next-line */
         // TODO fromArray
     }
 
@@ -428,7 +429,12 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
 
         return $this->buildOpenApiSchema($definitionHandler);
     }
-
+    
+    /**
+     * @param callable|null $definitionHandler
+     *
+     * @return array<mixed>
+     */
     protected function buildOpenApiSchema(?callable $definitionHandler = null): array
     {
         $array                      = [];

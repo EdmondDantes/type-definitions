@@ -42,7 +42,13 @@ class ReflectionTransferObjectReader
 
         return $objectDescriptor->asImmutable();
     }
-
+    
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     *
+     * @return \ReflectionProperty[]
+     * @throws ReaderException
+     */
     protected function extractProperties(\ReflectionClass $reflectionClass): array
     {
         if (\is_subclass_of($this->object, InstantiateInterface::class)) {
@@ -79,7 +85,12 @@ class ReflectionTransferObjectReader
     {
         return new ReflectionTypeReader($reflectionType, $typeContext, $this->resolver);
     }
-
+    
+    /**
+     * @param \Reflector $reflector
+     *
+     * @return array<object>
+     */
     protected function extractAttributes(\Reflector $reflector): array
     {
         if (false === \method_exists($reflector, 'getAttributes')) {

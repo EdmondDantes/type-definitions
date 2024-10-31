@@ -14,6 +14,9 @@ interface TypeContextInterface
 
     public function getPropertyName(): string|null;
 
+    /**
+     * @return array<string, object>
+     */
     public function getAttributes(): array;
 
     public function getAttribute(string $attribute): mixed;

@@ -16,7 +16,7 @@ use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER | Attribute::TARGET_CLASS_CONSTANT | Attribute::TARGET_CLASS)]
 readonly class Type implements AttributeNameInterface, ArraySerializableInterface
 {
-    public function __construct(public DefinitionInterface $definition) {}
+    public function __construct(public DefinitionMutableInterface $definition) {}
 
     #[\Override]
     public function toArray(?ArraySerializableValidatorInterface $validator = null): array
@@ -27,6 +27,7 @@ readonly class Type implements AttributeNameInterface, ArraySerializableInterfac
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new self(ArrayTyped::unserialize($array, $validator));
     }
 

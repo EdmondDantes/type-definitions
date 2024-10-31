@@ -57,7 +57,13 @@ class TypeDateTime extends DefinitionAbstract implements StringableInterface
     {
         return $this->pattern;
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->pattern;
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {
@@ -88,20 +94,19 @@ class TypeDateTime extends DefinitionAbstract implements StringableInterface
 
         throw new EncodingException($this, 'Invalid datetime format. Expected DateTime or DateTimeImmutable', ['data' => $data]);
     }
-
+    
+    /**
+     * @throws DecodingException
+     */
     #[\Override]
     public function decode(float|array|bool|int|string $data): mixed
     {
         if (\is_string($data)) {
-            $data                  = \DateTime::createFromFormat('Y-m-d H:i:s', $data);
+            $data                  = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data);
         }
 
         if ($data instanceof \DateTimeImmutable) {
             return $data;
-        }
-
-        if ($data instanceof \DateTime) {
-            return \DateTimeImmutable::createFromMutable($data);
         }
 
         throw new DecodingException($this, 'Invalid date format.', ['data' => $data]);

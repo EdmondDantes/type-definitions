@@ -59,7 +59,10 @@ class ReflectionTypeReader
      * @throws DescribeException
      * @throws TypeResolveNotAllowed
      */
-    protected function handleType(\ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type, int $recursion = 0): DefinitionMutableInterface|null
+    protected function handleType(
+        \ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type,
+        int                                                                                   $recursion = 0
+    ): DefinitionMutableInterface|null
     {
         if ($recursion > 32) {
             throw new RecursionLimitExceeded(32);
@@ -72,7 +75,6 @@ class ReflectionTypeReader
         }
 
         return $this->handleNamedType($type);
-
     }
 
     /**

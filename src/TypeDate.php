@@ -57,7 +57,13 @@ class TypeDate extends DefinitionAbstract implements StringableInterface
     {
         return $this->pattern;
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {

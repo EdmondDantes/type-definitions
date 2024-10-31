@@ -55,6 +55,9 @@ class TypeOneOf extends DefinitionAbstract
 
     protected function defineEnumCases(): void {}
 
+    /**
+     * @return DefinitionInterface[]
+     */
     public function getCases(): array
     {
         if ($this->cases === []) {
@@ -67,6 +70,7 @@ class TypeOneOf extends DefinitionAbstract
     #[\Override]
     public function encode(mixed $data): mixed
     {
+        /* @phpstan-ignore-next-line */
         // TODO: Implement arrayEncode() method.
     }
 

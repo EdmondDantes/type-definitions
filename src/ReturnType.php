@@ -30,6 +30,7 @@ readonly class ReturnType implements AttributeNameInterface, ArraySerializableIn
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
+        /* @phpstan-ignore-next-line */
         return new self(ArrayTyped::unserialize($array, $validator));
     }
 

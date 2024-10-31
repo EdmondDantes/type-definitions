@@ -173,6 +173,10 @@ class TypeObject extends DefinitionAbstract implements ObjectInterface
         return $specification;
     }
 
+    /**
+     * @param callable|null $definitionHandler
+     * @return array<string, array<mixed>>
+     */
     public function toOpenApiProperties(?callable $definitionHandler = null): array
     {
         $properties                 = [];
@@ -184,6 +188,9 @@ class TypeObject extends DefinitionAbstract implements ObjectInterface
         return $properties;
     }
 
+    /**
+     * @return string[]
+     */
     public function toOpenApiRequired(): array
     {
         $required                   = [];

@@ -53,6 +53,9 @@ class TypeAllOf extends DefinitionAbstract
 
     protected function defineEnumCases(): void {}
 
+    /**
+     * @return DefinitionInterface[]
+     */
     public function getCases(): array
     {
         if ($this->cases === []) {

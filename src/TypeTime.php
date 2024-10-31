@@ -42,7 +42,13 @@ class TypeTime extends DefinitionAbstract implements StringableInterface
     {
         return '([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]{3,6})([+-][0-9]{2}:[0-9]{2})?)?)?';
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {

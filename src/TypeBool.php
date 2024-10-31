@@ -45,7 +45,13 @@ class TypeBool extends DefinitionAbstract implements StringableInterface
     {
         return '(true|false|1|0)';
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {

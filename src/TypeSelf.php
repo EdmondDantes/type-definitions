@@ -26,12 +26,12 @@ class TypeSelf extends DefinitionAbstract
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        // TODO: Implement arrayEncode() method.
+        return $data;
     }
 
     #[\Override]
     public function decode(float|array|bool|int|string $data): mixed
     {
-        // TODO: Implement arrayDecode() method.
+        return $data;
     }
 }

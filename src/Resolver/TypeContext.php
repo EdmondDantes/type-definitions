@@ -6,6 +6,9 @@ namespace IfCastle\TypeDefinitions\Resolver;
 
 readonly class TypeContext implements TypeContextInterface
 {
+    /**
+     * @param array<object> $attributes
+     */
     public function __construct(
         private string|null $className      = null,
         private string|null $functionName   = null,

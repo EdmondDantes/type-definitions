@@ -143,6 +143,10 @@ class ReflectionFunctionReader implements FunctionReaderInterface
         return new ReflectionTypeReader($reflectionType, $typeContext, $this->resolver);
     }
 
+    /**
+     * Extracts attributes from the reflector.
+     * @return array<AttributeNameInterface|object>
+     */
     protected function extractAttributes(\Reflector $reflector): array
     {
         if (false === \method_exists($reflector, 'getAttributes')) {

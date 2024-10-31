@@ -14,6 +14,7 @@ use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 class TypeOptions extends DefinitionAbstract implements StringableInterface
 {
     /**
+     * @param array<mixed> $variants
      * @throws DefinitionIsNotValid
      */
     public function __construct(
@@ -57,7 +58,13 @@ class TypeOptions extends DefinitionAbstract implements StringableInterface
             '|', \array_map(static fn($item) => \preg_quote((string) $item), $this->variants)
         );
     }
-
+    
+    #[\Override]
+    public function getUriPattern(): string|null
+    {
+        return $this->getPattern();
+    }
+    
     #[\Override]
     public function getEcmaPattern(): string|null
     {
@@ -72,6 +79,9 @@ class TypeOptions extends DefinitionAbstract implements StringableInterface
         return true;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getVariants(): array
     {
         return $this->variants;

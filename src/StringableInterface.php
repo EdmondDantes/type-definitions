@@ -13,6 +13,8 @@ interface StringableInterface extends TypeInterface
     public function getMinLength(): int|null;
 
     public function getPattern(): string|null;
+    
+    public function getUriPattern(): string|null;
 
     public function getEcmaPattern(): string|null;
 }

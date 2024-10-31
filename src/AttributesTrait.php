@@ -33,6 +33,7 @@ trait AttributesTrait
     public function findAttribute(string $name): object|null
     {
         foreach ($this->attributes as $attribute) {
+            /* @phpstan-ignore-next-line */
             if (\is_subclass_of($attribute, $name) || ($attribute instanceof AttributeNameInterface && $attribute->getAttributeName() === $name)) {
                 return $attribute;
             }

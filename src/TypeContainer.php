@@ -52,12 +52,8 @@ class TypeContainer extends DefinitionAbstract
      * @throws DecodingException
      */
     #[\Override]
-    public function decode(mixed $data): mixed
+    public function decode(array|int|float|string|bool $data): mixed
     {
-        if (\is_object($data)) {
-            return $data;
-        }
-
         if (\is_string($data)) {
             $data                   = $this->jsonDecode($data);
         }
