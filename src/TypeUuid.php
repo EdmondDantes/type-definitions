@@ -29,6 +29,7 @@ class TypeUuid extends TypeString
         $this->pattern              = self::PREG_UUID;
     }
 
+    #[\Override]
     public function decode(array|int|float|string|bool $data): mixed
     {
         if (!\is_string($data) || !\preg_match('/^' . self::PREG_UUID . '$/i', $data)) {
@@ -41,6 +42,7 @@ class TypeUuid extends TypeString
     /**
      * @throws EncodingException
      */
+    #[\Override]
     public function encode(mixed $data): mixed
     {
         if (\is_string($data)) {
@@ -59,7 +61,8 @@ class TypeUuid extends TypeString
         return \is_string($value) && \preg_match('/^' . self::PREG_UUID . '$/i', $value);
     }
 
-    protected function validateValue($value): bool
+    #[\Override]
+    protected function validateValue(mixed $value): bool
     {
         return parent::validateValue($value);
     }

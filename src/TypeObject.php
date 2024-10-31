@@ -36,6 +36,7 @@ class TypeObject extends DefinitionAbstract implements ObjectInterface
         return $this;
     }
 
+    #[\Override]
     public function getProperties(): array
     {
         return $this->properties;
@@ -101,6 +102,7 @@ class TypeObject extends DefinitionAbstract implements ObjectInterface
         if (\is_subclass_of($instantiableClass, InstantiateInterface::class)) {
             return $instantiableClass::instantiate($decodedData, $this);
         }
+
         return new $instantiableClass(...$decodedData);
 
     }

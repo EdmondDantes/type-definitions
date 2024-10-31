@@ -6,10 +6,7 @@ namespace IfCastle\TypeDefinitions;
 
 class TypeFunction extends TypeObject implements FunctionDescriptorInterface
 {
-    protected string $className     = '';
     protected string $functionName  = '';
-    protected bool $isStatic        = false;
-    protected string $scope         = '';
     protected DefinitionInterface $returnType;
 
     /**
@@ -21,9 +18,9 @@ class TypeFunction extends TypeObject implements FunctionDescriptorInterface
 
     public function __construct(
         string $name,
-        string $className           = '',
-        string $scope               = '',
-        bool   $isStatic            = false,
+        protected string $className           = '',
+        protected string $scope               = '',
+        protected bool   $isStatic            = false,
         bool   $isRequired          = true,
         bool   $isNullable          = false
     ) {
@@ -35,26 +32,27 @@ class TypeFunction extends TypeObject implements FunctionDescriptorInterface
 
         $this->type                 = 'function';
         $this->functionName         = $name;
-        $this->className            = $className;
-        $this->isStatic             = $isStatic;
-        $this->scope                = $scope;
     }
 
+    #[\Override]
     public function getFunctionName(): string
     {
         return $this->functionName;
     }
 
+    #[\Override]
     public function getClassName(): string
     {
         return $this->className;
     }
 
+    #[\Override]
     public function getArguments(): array
     {
         return $this->properties;
     }
 
+    #[\Override]
     public function getReturnType(): DefinitionInterface
     {
         return $this->returnType;
@@ -80,26 +78,31 @@ class TypeFunction extends TypeObject implements FunctionDescriptorInterface
         return $this;
     }
 
+    #[\Override]
     public function getScope(): string
     {
         return $this->scope;
     }
 
+    #[\Override]
     public function isInternal(): bool
     {
         return $this->scope === FunctionDescriptorInterface::SCOPE_INTERNAL;
     }
 
+    #[\Override]
     public function isPublic(): bool
     {
         return $this->scope === FunctionDescriptorInterface::SCOPE_PUBLIC;
     }
 
+    #[\Override]
     public function isClass(): bool
     {
         return $this->className !== '';
     }
 
+    #[\Override]
     public function isStatic(): bool
     {
         return $this->isStatic;

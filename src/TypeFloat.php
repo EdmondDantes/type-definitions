@@ -50,11 +50,13 @@ class TypeFloat extends DefinitionAbstract implements NumberMutableInterface, St
         return '-?\\d+(\\.\\d+)?';
     }
 
+    #[\Override]
     public function isUnsigned(): bool
     {
         return $this->minimum !== null && $this->minimum >= 0;
     }
 
+    #[\Override]
     public function isNonZero(): bool
     {
         return $this->minimum !== null && $this->minimum > 0;
@@ -66,22 +68,26 @@ class TypeFloat extends DefinitionAbstract implements NumberMutableInterface, St
         return true;
     }
 
+    #[\Override]
     public function getMinimum(): int|float|null
     {
         return $this->minimum;
     }
 
+    #[\Override]
     public function getMaximum(): int|float|null
     {
         return $this->maximum;
     }
 
+    #[\Override]
     public function setMinimum(int|float $minimum): static
     {
         $this->minimum              = (float) $minimum;
         return $this;
     }
 
+    #[\Override]
     public function setMaximum(int|float $maximum): static
     {
         $this->maximum              = (float) $maximum;
@@ -132,7 +138,7 @@ class TypeFloat extends DefinitionAbstract implements NumberMutableInterface, St
     {
         if (\is_string($data)) {
 
-            if (!\preg_match('/^[+-]?[0-9]+(\.[0-9]+)?(e[+-]?[0-9]+)?$/', $data)) {
+            if (!\preg_match('/^[+-]?\d+(\.\d+)?(e[+-]?\d+)?$/', $data)) {
                 throw new DecodingException($this, 'Value is not a float', ['data' => $data]);
             }
 

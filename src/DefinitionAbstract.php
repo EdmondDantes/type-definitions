@@ -508,6 +508,7 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
     /**
      * @throws DescribeException
      */
+    #[\Override]
     protected function throwIfImmutable(): void
     {
         if ($this->isImmutable) {

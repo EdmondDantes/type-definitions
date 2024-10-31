@@ -11,7 +11,7 @@ class TypeDateTime extends DefinitionAbstract implements StringableInterface
 {
     protected string|null $pattern      = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) (2[0-3]|[01]\d):[0-5]\d:[0-5]\d$/';
 
-    protected string|null $ecmaPattern  = '[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]';
+    protected string|null $ecmaPattern  = '\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) (2[0-3]|[01]\d):[0-5]\d:[0-5]\d';
 
     protected bool $dateAsImmutable     = true;
 
@@ -76,12 +76,7 @@ class TypeDateTime extends DefinitionAbstract implements StringableInterface
         if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             return true;
         }
-
-        if (false === \DateTime::createFromFormat('Y-m-d H:i:s', $value)) {
-            return false;
-        }
-
-        return true;
+        return false !== \DateTime::createFromFormat('Y-m-d H:i:s', $value);
     }
 
     #[\Override]

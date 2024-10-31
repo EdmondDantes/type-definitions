@@ -13,6 +13,7 @@ use IfCastle\TypeDefinitions\TypeException;
 
 final class RemoteException extends BaseException implements DefinitionStaticAwareInterface, DefinitionAwareInterface
 {
+    #[\Override]
     public static function definition(): DefinitionMutableInterface
     {
         return (new TypeException('RemoteException'))
@@ -21,8 +22,9 @@ final class RemoteException extends BaseException implements DefinitionStaticAwa
             ->asImmutable();
     }
 
+    #[\Override]
     public function getDefinition(): DefinitionInterface
     {
-        return static::definition();
+        return self::definition();
     }
 }

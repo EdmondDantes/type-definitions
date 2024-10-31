@@ -46,7 +46,7 @@ class TypeJson extends DefinitionAbstract
         // recursive validate an array as JSON array with simple types
         $stack                      = [$value];
 
-        while (\count($stack) > 0) {
+        while ($stack !== []) {
             $currentArray           = \array_pop($stack);
 
             foreach ($currentArray as $item) {

@@ -53,32 +53,38 @@ class TypeInteger extends DefinitionAbstract implements NumberMutableInterface, 
         return true;
     }
 
+    #[\Override]
     public function isUnsigned(): bool
     {
         return $this->minimum !== null && $this->minimum >= 0;
     }
 
+    #[\Override]
     public function isNonZero(): bool
     {
         return $this->minimum !== null && $this->minimum > 0;
     }
 
+    #[\Override]
     public function getMinimum(): int|float|null
     {
         return $this->minimum;
     }
 
+    #[\Override]
     public function getMaximum(): int|float|null
     {
         return $this->maximum;
     }
 
+    #[\Override]
     public function setMinimum(int|float $minimum): static
     {
         $this->minimum              = (int) $minimum;
         return $this;
     }
 
+    #[\Override]
     public function setMaximum(int|float $maximum): static
     {
         $this->maximum              = (int) $maximum;

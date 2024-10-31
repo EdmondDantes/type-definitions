@@ -24,6 +24,7 @@ final class DataEncoder
         } elseif ($value instanceof DefinitionStaticAwareInterface) {
             return $value::definition()->encode($value);
         }
+
         throw new EncodingException(
             new TypeMixed('undefined'),
             'Expected instance of ContainerSerializableInterface|DefinitionAwareInterface|DefinitionStaticAwareInterface. Got {value}',

@@ -9,6 +9,7 @@ use IfCastle\TypeDefinitions\TypeTime;
 
 class ValueTime extends ValueContainer
 {
+    #[\Override]
     public static function definition(): DefinitionMutableInterface
     {
         return (new TypeTime('time'))->setInstantiableClass(static::class);
@@ -27,6 +28,7 @@ class ValueTime extends ValueContainer
         );
     }
 
+    #[\Override]
     public function containerToString(): string
     {
         // Output format: 00:00:00.000000+00:00

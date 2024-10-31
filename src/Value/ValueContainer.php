@@ -43,6 +43,7 @@ class ValueContainer implements ValueContainerInterface
     /**
      * @throws \JsonException
      */
+    #[\Override]
     public function containerToString(): string
     {
         $value                      = $this->containerSerialize();

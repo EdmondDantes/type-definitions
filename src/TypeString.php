@@ -13,6 +13,7 @@ use IfCastle\TypeDefinitions\Value\ValueString;
 class TypeString extends DefinitionAbstract implements StringableMutableInterface
 {
     protected int|null $minLength   = null;
+
     protected int|null $maxLength   = null;
 
     protected string|null $pattern  = null;
@@ -34,6 +35,7 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         return true;
     }
 
+    #[\Override]
     public function isBinary(): bool
     {
         return false;
@@ -61,26 +63,31 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         return true;
     }
 
+    #[\Override]
     public function getMaxLength(): int|null
     {
         return $this->maxLength;
     }
 
+    #[\Override]
     public function getMinLength(): int|null
     {
         return $this->minLength;
     }
 
+    #[\Override]
     public function getPattern(): string|null
     {
         return $this->pattern;
     }
 
+    #[\Override]
     public function getEcmaPattern(): string|null
     {
         return $this->ecmaPattern;
     }
 
+    #[\Override]
     public function setMaxLength(int $maxLength): static
     {
         $this->maxLength = $maxLength;
@@ -88,6 +95,7 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         return $this;
     }
 
+    #[\Override]
     public function setMinLength(int $minLength): static
     {
         $this->minLength = $minLength;
@@ -95,6 +103,7 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         return $this;
     }
 
+    #[\Override]
     public function setPattern(string $pattern): static
     {
         $this->pattern = $pattern;
@@ -102,6 +111,7 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         return $this;
     }
 
+    #[\Override]
     public function setEcmaPattern(string $ecmaPattern): static
     {
         $this->ecmaPattern = $ecmaPattern;
@@ -155,6 +165,7 @@ class TypeString extends DefinitionAbstract implements StringableMutableInterfac
         throw new EncodingException($this, 'Expected type string', ['data' => $data]);
     }
 
+    #[\Override]
     public function canDecodeFromString(): bool
     {
         return true;

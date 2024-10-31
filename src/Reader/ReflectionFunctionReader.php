@@ -47,13 +47,10 @@ class ReflectionFunctionReader implements FunctionReaderInterface
 
     public function __construct(protected readonly ResolverInterface $resolver) {}
 
+    #[\Override]
     public function extractFunctionDescriptor(string|\Closure|\ReflectionFunction $function): FunctionDescriptorInterface
     {
-        if ($function instanceof \ReflectionFunction) {
-            $reflectedFunction      = $function;
-        } else {
-            $reflectedFunction      = new \ReflectionFunction($function);
-        }
+        $reflectedFunction = $function instanceof \ReflectionFunction ? $function : new \ReflectionFunction($function);
 
         $functionDescriptor         = new TypeFunction($reflectedFunction->getName());
 
@@ -92,13 +89,10 @@ class ReflectionFunctionReader implements FunctionReaderInterface
         return $functionDescriptor->asImmutable();
     }
 
+    #[\Override]
     public function extractMethodDescriptor(string|object $object, string $method): FunctionDescriptorInterface
     {
-        if ($object instanceof \ReflectionMethod) {
-            $reflectedMethod        = $object;
-        } else {
-            $reflectedMethod        = new \ReflectionMethod($object, $method);
-        }
+        $reflectedMethod = $object instanceof \ReflectionMethod ? $object : new \ReflectionMethod($object, $method);
 
         $reflectedClass             = $reflectedMethod->getDeclaringClass();
 

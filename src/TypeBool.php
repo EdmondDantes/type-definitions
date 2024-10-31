@@ -89,6 +89,7 @@ class TypeBool extends DefinitionAbstract implements StringableInterface
         throw new EncodingException($this, 'Expected type bool', ['data' => $data]);
     }
 
+    #[\Override]
     public function canDecodeFromString(): bool
     {
         return true;

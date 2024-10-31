@@ -9,6 +9,7 @@ use IfCastle\TypeDefinitions\TypeErrorMessage;
 
 class ValueErrorMessage extends ValueObject
 {
+    #[\Override]
     public static function definition(): DefinitionMutableInterface
     {
         return (new TypeErrorMessage('errorMessage'))->asReference()->asImmutable();

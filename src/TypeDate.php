@@ -76,12 +76,7 @@ class TypeDate extends DefinitionAbstract implements StringableInterface
         if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             return true;
         }
-
-        if (false === \DateTime::createFromFormat('Y-m-d', $value)) {
-            return false;
-        }
-
-        return true;
+        return false !== \DateTime::createFromFormat('Y-m-d', $value);
     }
 
     #[\Override]
@@ -101,11 +96,9 @@ class TypeDate extends DefinitionAbstract implements StringableInterface
             $data                  = \DateTimeImmutable::createFromFormat('Y-m-d', $data);
         }
 
-        if ($this->dateAsImmutable) {
+        if ($this->dateAsImmutable && $data instanceof \DateTimeImmutable) {
 
-            if ($data instanceof \DateTimeImmutable) {
-                return $data;
-            }
+            return $data;
         }
 
         if ($data instanceof \DateTime) {

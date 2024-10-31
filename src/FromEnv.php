@@ -24,6 +24,7 @@ readonly class FromEnv implements ArraySerializableInterface, AttributeNameInter
         return [$this->key, $this->factory, $this->fromRequestEnv];
     }
 
+    #[\Override]
     public function getAttributeName(): string
     {
         return self::class;

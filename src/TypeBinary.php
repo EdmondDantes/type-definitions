@@ -6,6 +6,7 @@ namespace IfCastle\TypeDefinitions;
 
 class TypeBinary extends TypeString
 {
+    #[\Override]
     public function isBinary(): bool
     {
         return true;

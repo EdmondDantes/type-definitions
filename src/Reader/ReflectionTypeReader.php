@@ -70,6 +70,7 @@ class ReflectionTypeReader
         } elseif ($type instanceof \ReflectionIntersectionType) {
             return $this->handleIntersectionType($type, $recursion + 1);
         }
+
         return $this->handleNamedType($type);
 
     }
@@ -171,6 +172,7 @@ class ReflectionTypeReader
         if ($this->definition instanceof \ReflectionParameter || $this->definition instanceof \ReflectionProperty) {
             return $this->definition->getName();
         }
+
         return 'returnType';
 
     }

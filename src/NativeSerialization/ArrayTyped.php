@@ -12,7 +12,7 @@ final class ArrayTyped
     /**
      * special array-key for type information.
      */
-    final public const string TYPE         = '@';
+    public const string TYPE         = '@';
 
     /**
      * @throws LogicalException

@@ -7,6 +7,7 @@ namespace IfCastle\TypeDefinitions;
 interface FunctionDescriptorInterface extends DefinitionInterface
 {
     public const string SCOPE_PUBLIC = 'public';
+
     public const string SCOPE_INTERNAL = 'internal';
 
     public function getFunctionName(): string;

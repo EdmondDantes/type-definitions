@@ -9,7 +9,7 @@ final class PhpdocDescriptionParser
     /**
      * @var array<string>
      */
-    final public const array DOC_TAGS      = ['access', 'see', 'since', 'deprecated',
+    public const array DOC_TAGS      = ['access', 'see', 'since', 'deprecated',
         'link', 'author', 'version', 'category', 'package'];
 
     /**
@@ -24,9 +24,9 @@ final class PhpdocDescriptionParser
             if (!empty($row['description'])) {
 
                 // If description started with spase + * then remove it
-                $text               = \preg_replace('/^\s*\*\s*/', '', \trim($row['description']));
+                $text               = \preg_replace('/^\s*\*\s*/', '', \trim((string) $row['description']));
 
-                if (empty($description) && empty($text)) {
+                if ($description === [] && empty($text)) {
                     continue;
                 }
 
@@ -34,12 +34,12 @@ final class PhpdocDescriptionParser
                     $description[]  = $text;
                 }
             } elseif (!empty($row['tag']) && \in_array($row['tag'], self::DOC_TAGS, true)) {
-                $description[]  = $row['tag'] . (!empty($row['value']) ? ': ' . $row['value'] : '');
+                $description[]  = $row['tag'] . (empty($row['value']) ? '' : ': ' . $row['value']);
             }
         }
 
         // Remove empty lines from the end of the description
-        while (\count($description) > 0) {
+        while ($description !== []) {
             if ($description[\count($description) - 1] === '') {
                 \array_pop($description);
             } else {

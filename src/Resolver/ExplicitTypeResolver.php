@@ -22,6 +22,7 @@ class ExplicitTypeResolver implements ResolverInterface
     /**
      * @throws \ReflectionException
      */
+    #[\Override]
     public function resolveType(string $typeName, TypeContextInterface $typeContext): DefinitionMutableInterface|null
     {
         $type                       = $typeContext->getAttribute(Type::class);
@@ -38,7 +39,7 @@ class ExplicitTypeResolver implements ResolverInterface
         $reflection             = new \ReflectionClass($typeName);
         $attributes             = $reflection->getAttributes(Type::class);
 
-        if (\count($attributes) > 0) {
+        if ($attributes !== []) {
             return $attributes[0]->newInstance()->definition;
         }
 

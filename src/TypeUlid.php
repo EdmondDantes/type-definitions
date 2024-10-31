@@ -25,6 +25,7 @@ class TypeUlid extends TypeString
         return parent::validateValue($value) && \preg_match(self::PREG_ULID, (string) $value);
     }
 
+    #[\Override]
     public function decode(array|int|float|string|bool $data): mixed
     {
         if (!\is_string($data) || !\preg_match(self::PREG_ULID, $data)) {
@@ -37,6 +38,7 @@ class TypeUlid extends TypeString
     /**
      * @throws EncodingException
      */
+    #[\Override]
     public function encode(mixed $data): mixed
     {
         if (\is_string($data)) {

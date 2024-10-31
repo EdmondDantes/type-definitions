@@ -26,28 +26,32 @@ use IfCastle\TypeDefinitions\NativeSerialization\DataEncoder;
  */
 class TypeContainer extends DefinitionAbstract
 {
+    #[\Override]
     public function isScalar(): bool
     {
         return false;
     }
 
+    #[\Override]
     protected function validateValue($value): bool
     {
         return $value instanceof self;
     }
 
+    #[\Override]
     public function encode(mixed $data): mixed
     {
         if ($data instanceof \Throwable && $data instanceof DefinitionStaticAwareInterface === false) {
             return [RemoteException::class, RemoteException::toArrayForRemote($data)];
         }
 
-        return [\get_class($data), DataEncoder::dataEncode($data)];
+        return [$data::class, DataEncoder::dataEncode($data)];
     }
 
     /**
      * @throws DecodingException
      */
+    #[\Override]
     public function decode(mixed $data): mixed
     {
         if (\is_object($data)) {
