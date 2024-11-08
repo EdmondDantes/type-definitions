@@ -7,6 +7,7 @@ namespace IfCastle\TypeDefinitions;
 class TypeFunction extends TypeObject implements FunctionDescriptorInterface
 {
     protected string $functionName  = '';
+
     protected DefinitionInterface $returnType;
 
     /**

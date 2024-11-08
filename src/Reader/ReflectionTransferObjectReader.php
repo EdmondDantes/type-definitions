@@ -42,7 +42,7 @@ class ReflectionTransferObjectReader
 
         return $objectDescriptor->asImmutable();
     }
-    
+
     /**
      * @param \ReflectionClass<object> $reflectionClass
      *
@@ -85,9 +85,8 @@ class ReflectionTransferObjectReader
     {
         return new ReflectionTypeReader($reflectionType, $typeContext, $this->resolver);
     }
-    
+
     /**
-     * @param \Reflector $reflector
      *
      * @return array<object>
      */

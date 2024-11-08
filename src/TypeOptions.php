@@ -58,13 +58,13 @@ class TypeOptions extends DefinitionAbstract implements StringableInterface
             '|', \array_map(static fn($item) => \preg_quote((string) $item), $this->variants)
         );
     }
-    
+
     #[\Override]
     public function getUriPattern(): string|null
     {
         return $this->getPattern();
     }
-    
+
     #[\Override]
     public function getEcmaPattern(): string|null
     {

@@ -9,7 +9,6 @@ use IfCastle\TypeDefinitions\Exceptions\DefinitionIsNotValid;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
 use IfCastle\TypeDefinitions\Exceptions\ParseException;
 use IfCastle\TypeDefinitions\NativeSerialization\ArraySerializableValidatorInterface;
-use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 abstract class DefinitionAbstract implements DefinitionMutableInterface
 {
@@ -429,9 +428,8 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
 
         return $this->buildOpenApiSchema($definitionHandler);
     }
-    
+
     /**
-     * @param callable|null $definitionHandler
      *
      * @return array<mixed>
      */

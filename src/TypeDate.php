@@ -57,13 +57,13 @@ class TypeDate extends DefinitionAbstract implements StringableInterface
     {
         return $this->pattern;
     }
-    
+
     #[\Override]
     public function getUriPattern(): string|null
     {
         return $this->getPattern();
     }
-    
+
     #[\Override]
     public function getEcmaPattern(): string|null
     {
@@ -82,6 +82,7 @@ class TypeDate extends DefinitionAbstract implements StringableInterface
         if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             return true;
         }
+
         return false !== \DateTime::createFromFormat('Y-m-d', $value);
     }
 

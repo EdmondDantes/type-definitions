@@ -62,8 +62,7 @@ class ReflectionTypeReader
     protected function handleType(
         \ReflectionType|\ReflectionNamedType|\ReflectionUnionType|\ReflectionIntersectionType $type,
         int                                                                                   $recursion = 0
-    ): DefinitionMutableInterface|null
-    {
+    ): DefinitionMutableInterface|null {
         if ($recursion > 32) {
             throw new RecursionLimitExceeded(32);
         }

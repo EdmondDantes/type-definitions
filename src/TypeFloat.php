@@ -43,13 +43,13 @@ class TypeFloat extends DefinitionAbstract implements NumberMutableInterface, St
     {
         return '-?\d+(\.\d+)?';
     }
-    
+
     #[\Override]
     public function getUriPattern(): string|null
     {
         return $this->getPattern();
     }
-    
+
     #[\Override]
     public function getEcmaPattern(): string|null
     {

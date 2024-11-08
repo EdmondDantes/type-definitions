@@ -40,13 +40,13 @@ class TypeInteger extends DefinitionAbstract implements NumberMutableInterface, 
     {
         return '-?\d+';
     }
-    
+
     #[\Override]
     public function getUriPattern(): string|null
     {
         return $this->getPattern();
     }
-    
+
     #[\Override]
     public function getEcmaPattern(): string|null
     {

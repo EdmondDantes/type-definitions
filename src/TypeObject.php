@@ -174,7 +174,6 @@ class TypeObject extends DefinitionAbstract implements ObjectInterface
     }
 
     /**
-     * @param callable|null $definitionHandler
      * @return array<string, array<mixed>>
      */
     public function toOpenApiProperties(?callable $definitionHandler = null): array
