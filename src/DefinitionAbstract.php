@@ -17,27 +17,27 @@ abstract class DefinitionAbstract implements DefinitionMutableInterface
     public static function getDefinitionByNativeType(string $name, mixed $value): ?DefinitionMutableInterface
     {
         return match (true) {
-            $value === null         => new TypeNull($name),
+            $value === null          => new TypeNull($name),
             \is_bool($value)         => new TypeBool($name),
             \is_string($value)       => new TypeString($name),
             \is_int($value)          => new TypeInteger($name),
             \is_float($value)        => new TypeFloat($name),
-            \is_array($value)        => new TypeJson($name),
-            default                 => null,
+            \is_array($value)        => (new TypeJson($name))->decodeAsNative(),
+            default                  => null,
         };
     }
 
     public static function getDefinitionByNativeTypeName(string $typeName, string $name): ?DefinitionMutableInterface
     {
         return match ($typeName) {
-            TypesEnum::NULL->value  => new TypeNull($name),
-            TypesEnum::VOID->value  => new TypeVoid($name),
-            TypesEnum::BOOL->value  => new TypeBool($name),
-            TypesEnum::STRING->value => new TypeString($name),
-            TypesEnum::INTEGER->value => new TypeInteger($name),
-            TypesEnum::FLOAT->value => new TypeFloat($name),
-            TypesEnum::ARRAY->value => new TypeJson($name),
-            default                 => null,
+            TypesEnum::NULL->value      => new TypeNull($name),
+            TypesEnum::VOID->value      => new TypeVoid($name),
+            TypesEnum::BOOL->value      => new TypeBool($name),
+            TypesEnum::STRING->value    => new TypeString($name),
+            TypesEnum::INTEGER->value   => new TypeInteger($name),
+            TypesEnum::FLOAT->value     => new TypeFloat($name),
+            TypesEnum::ARRAY->value     => (new TypeJson($name))->decodeAsNative(),
+            default                     => null,
         };
     }
 
