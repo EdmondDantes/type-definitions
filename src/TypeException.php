@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DescribeException;
+
 /**
  * Class TypeException.
  *
@@ -11,6 +13,9 @@ namespace IfCastle\TypeDefinitions;
  */
 class TypeException extends TypeObject
 {
+    /**
+     * @throws DescribeException
+     */
     public function __construct(string $name, bool $isRequired = true, bool $isNullable = false)
     {
         parent::__construct(
