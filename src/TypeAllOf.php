@@ -65,10 +65,26 @@ class TypeAllOf extends DefinitionAbstract
         return $this->cases;
     }
 
+    /**
+     * @throws DefinitionIsNotValid
+     */
     #[\Override]
     public function encode(mixed $data): mixed
     {
-        // TODO: Implement arrayEncode() method.
+        if ($this->cases === []) {
+            throw new DefinitionIsNotValid($this, 'Enum types should be not empty');
+        }
+
+        foreach ($this->cases as $type) {
+            try {
+                return $type->encode($data);
+
+            } catch (DefinitionIsNotValid) {
+                continue;
+            }
+        }
+
+        throw new DefinitionIsNotValid($this, 'Enum types are not matched');
     }
 
     /**
