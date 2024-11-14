@@ -12,8 +12,8 @@ class TypeUndefined extends ReaderException
 
     public function __construct(string $source = '', ?TypeContextInterface $typeContext = null)
     {
-        /* @phpstan-ignore-next-line */
         if ($typeContext instanceof TypeContextInterface) {
+            /* @phpstan-ignore-next-line */
             $sourceString           = match (true) {
                 $typeContext->isReturnType()     => 'returnType',
                 $typeContext->isProperty()       => 'property',

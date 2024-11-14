@@ -49,6 +49,7 @@ readonly class Error implements ArraySerializableInterface
         return new self(
             $array[self::TEMPLATE] ?? '',
             $array[self::DESCRIPTION] ?? '',
+            /* @phpstan-ignore-next-line */
             ...ArrayTyped::unserializeList($validator, ...($array[self::PARAMETERS] ?? [])) ?? [],
         );
     }

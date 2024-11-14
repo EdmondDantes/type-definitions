@@ -28,8 +28,6 @@ final class ArrayTyped
     }
 
     /**
-     * @param    ArraySerializableInterface[]             $objects
-     *
      * @throws  LogicalException
      * @return  array<mixed>
      */
@@ -50,6 +48,7 @@ final class ArrayTyped
     }
 
     /**
+     * @param    array<mixed>|null       $object
      *
      * @return  array<mixed>|null
      * @throws  UnSerializeException
@@ -81,6 +80,8 @@ final class ArrayTyped
      * @param    array<mixed>|null       $objects
      *
      * @throws UnSerializeException
+     *
+     * @return array<mixed>|null
      */
     public static function unserializeList(array|null $objects, ?ArraySerializableValidatorInterface $validator = null): array|null
     {

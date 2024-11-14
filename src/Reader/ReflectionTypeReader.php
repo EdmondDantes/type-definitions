@@ -71,9 +71,11 @@ class ReflectionTypeReader
             return $this->handleUnionType($type, $recursion + 1);
         } elseif ($type instanceof \ReflectionIntersectionType) {
             return $this->handleIntersectionType($type, $recursion + 1);
+        } elseif ($type instanceof \ReflectionNamedType) {
+            return $this->handleNamedType($type);
         }
 
-        return $this->handleNamedType($type);
+        return null;
     }
 
     /**
