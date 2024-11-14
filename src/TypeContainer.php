@@ -33,7 +33,7 @@ class TypeContainer extends DefinitionAbstract
     }
 
     #[\Override]
-    protected function validateValue($value): bool
+    protected function validateValue(mixed $value): bool
     {
         return $value instanceof self;
     }
