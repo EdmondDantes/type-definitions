@@ -62,6 +62,7 @@ final class PhpdocDescriptionParser
         $tagContinue                = '(?:\040){2}(?<multiline_value>\S.*?)';
         $regex                      = '/^\s*(?:(?:\/\*)?\*)?(?:' . $tag . '|' . $tagContinue . '|' . $description . ')(?:\s*\*\*\/)?\r?$/m';
 
+        /* @phpstan-ignore-next-line */
         return \preg_match_all($regex, $doc, $matches, PREG_SET_ORDER) ? $matches : [];
     }
 }
