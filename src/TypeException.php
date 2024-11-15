@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace IfCastle\TypeDefinitions;
 
+use IfCastle\TypeDefinitions\Exceptions\DecodingException;
 use IfCastle\TypeDefinitions\Exceptions\DescribeException;
+use IfCastle\TypeDefinitions\Exceptions\EncodingException;
+use IfCastle\TypeDefinitions\Exceptions\RemoteException;
 
 /**
  * Class TypeException.
@@ -24,7 +27,7 @@ class TypeException extends TypeObject
             $isNullable
         );
 
-        $this->type                     = 'exception';
+        $this->type                     = TypesEnum::EXCEPTION->value;
 
         $this->describe((new TypeString('message'))->setDescription('The error message.'))
                 ->describe((new TypeString('code'))->setDescription('The error code.'))
@@ -39,5 +42,34 @@ class TypeException extends TypeObject
                 ->describe((new TypeJson('data', isRequired: false, isNullable: true))
                                ->setDescription('The data of the exception.'))
                 ->describe((new TypeSelf('previous'))->setDescription('The previous exception.'));
+    }
+
+    /**
+     * @throws DecodingException
+     */
+    #[\Override]
+    public function decode(float|array|bool|int|string $data): mixed
+    {
+        if (\is_string($data)) {
+            $data                   = $this->jsonDecode($data);
+        }
+
+        if (!\is_array($data)) {
+            throw new DecodingException($this, 'Expected array. Got {value}', ['value' => \get_debug_type($data)]);
+        }
+
+        return new RemoteException($data);
+    }
+
+    #[\Override]
+    public function encode(mixed $data): mixed
+    {
+        if ($data instanceof RemoteException) {
+            return $data->toArray(true);
+        } elseif ($data instanceof \Throwable) {
+            return (new RemoteException($data))->toArray(true);
+        }
+        throw new EncodingException($this, 'Expected instance of Throwable', ['value' => \get_debug_type($data)]);
+
     }
 }

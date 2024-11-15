@@ -33,4 +33,5 @@ enum TypesEnum: string
     case KEY_LIST                   = 'keyList';
     case LIST                       = 'list';
     case ONE_OF                     = 'oneOf';
+    case EXCEPTION                  = 'exception';
 }
